@@ -89,7 +89,7 @@ const CartContent = () => {
             {cartItems.map(item => (
               <div key={item.product.id} className="flex items-start gap-4 mb-4">
                 <Image
-                  src={item.product.image.imageUrl}
+                  src={item.product.images[0].imageUrl}
                   alt={item.product.title}
                   width={64}
                   height={64}
@@ -212,7 +212,7 @@ const CartPopover = () => {
             </Button>
         </PopoverTrigger>
         <PopoverContent className="w-96 mr-4 p-4">
-          <div className="font-semibold text-lg">Your Cart</div>
+          <div className="font-bold text-lg">Your Cart</div>
           <CartContent />
         </PopoverContent>
       </Popover>

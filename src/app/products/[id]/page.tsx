@@ -7,6 +7,7 @@ import StarRating from "@/components/products/StarRating";
 import AddToCartButton from "@/components/products/AddToCartButton";
 import SuggestedProducts from "@/components/products/SuggestedProducts";
 import { Metadata } from "next";
+import ProductImageGallery from "@/components/products/ProductImageGallery";
 
 type ProductPageProps = {
   params: {
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       description: product.description,
       images: [
         {
-          url: product.image.imageUrl,
+          url: product.images[0].imageUrl,
           width: 600,
           height: 600,
           alt: product.title,
@@ -53,16 +54,7 @@ export default function ProductPage({ params }: ProductPageProps) {
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
           <div className="fade-in-up">
-            <div className="aspect-square relative rounded-lg overflow-hidden shadow-lg bg-card">
-              <Image
-                src={product.image.imageUrl}
-                alt={product.title}
-                fill
-                className="object-contain p-4"
-                data-ai-hint={product.image.imageHint}
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
+            <ProductImageGallery images={product.images} />
           </div>
           <div className="fade-in-up [animation-delay:0.2s]">
             <h1 className="text-3xl lg:text-4xl font-bold font-headline text-foreground">{product.title}</h1>

@@ -4,7 +4,7 @@ export type Product = {
   id: string;
   category: string;
   title: string;
-  image: ImagePlaceholder;
+  images: ImagePlaceholder[];
   originalPrice: number | null;
   price: number;
   labels: string[];

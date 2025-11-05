@@ -53,7 +53,7 @@ const OrderSummary = () => {
             {cartItems.map((item) => (
               <div key={item.product.id} className="flex items-start gap-4">
                 <Image
-                  src={item.product.image.imageUrl}
+                  src={item.product.images[0].imageUrl}
                   alt={item.product.title}
                   width={64}
                   height={64}

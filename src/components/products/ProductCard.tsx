@@ -16,6 +16,7 @@ type ProductCardProps = {
 
 const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) => {
   const { addToCart } = useCart();
+  const firstImage = product.images[0];
 
   if (viewMode === 'list') {
     return (
@@ -23,12 +24,12 @@ const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) => {
         <div className="flex flex-col md:flex-row">
           <Link href={`/products/${product.id}`} className="block md:w-1/3 relative bg-card">
             <Image
-              src={product.image.imageUrl}
+              src={firstImage.imageUrl}
               alt={product.title}
               width={300}
               height={300}
               className="object-contain w-full h-full p-4"
-              data-ai-hint={product.image.imageHint}
+              data-ai-hint={firstImage.imageHint}
             />
           </Link>
           <div className="flex flex-col p-6 md:w-2/3">
@@ -65,12 +66,12 @@ const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) => {
       <Link href={`/products/${product.id}`} className="block">
         <div className="overflow-hidden relative bg-card aspect-square">
           <Image
-            src={product.image.imageUrl}
+            src={firstImage.imageUrl}
             alt={product.title}
             width={400}
             height={400}
             className="object-contain w-full h-full p-4 group-hover:scale-105 transition-transform duration-300"
-            data-ai-hint={product.image.imageHint}
+            data-ai-hint={firstImage.imageHint}
           />
           {product.labels.length > 0 && (
             <div className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold px-2 py-1 rounded-md">
