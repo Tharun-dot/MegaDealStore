@@ -107,11 +107,6 @@ export const Footer = () => {
                <div className="space-y-2">
                 <h4 className="font-semibold">For Business</h4>
                  <ul className="space-y-1">
-                    <li>
-                      <Link href={`/admin/products`} className="text-sm text-muted-foreground hover:text-primary">
-                        Admin
-                      </Link>
-                    </li>
                      <li>
                         <Link href={`/become-an-affiliate`} className="text-sm text-muted-foreground hover:text-primary">
                           Become an Affiliate

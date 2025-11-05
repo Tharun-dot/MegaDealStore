@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -39,7 +39,7 @@ const productSchema = z.object({
   category: z.string().min(1, 'Category is required.'),
   price: z.coerce.number().min(0, 'Price must be a positive number.'),
   originalPrice: z.coerce.number().optional().nullable(),
-  imageUrls: z.array(z.string().url('Must be a valid URL.')).min(1, 'At least one image is required.').max(4, 'You can add up to 4 images.'),
+  imageUrls: z.array(z.object({ value: z.string().url('Must be a valid URL.') })).min(1, 'At least one image is required.').max(4, 'You can add up to 4 images.'),
   videoUrl: z.string().url('Must be a valid URL.').optional().or(z.literal('')),
 });
 
@@ -57,12 +57,12 @@ export default function AddProductPage() {
       category: '',
       price: 0,
       originalPrice: null,
-      imageUrls: [''],
+      imageUrls: [{ value: '' }],
       videoUrl: '',
     },
   });
   
-  const { fields, append, remove } = useForm({
+  const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'imageUrls'
   });
@@ -169,19 +169,19 @@ export default function AddProductPage() {
             <div>
               <FormLabel>Product Images</FormLabel>
               <div className="space-y-4 mt-2">
-              {form.watch('imageUrls').map((_, index) => (
+              {fields.map((field, index) => (
                 <FormField
-                  key={index}
+                  key={field.id}
                   control={form.control}
-                  name={`imageUrls.${index}`}
+                  name={`imageUrls.${index}.value`}
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex items-center gap-2">
                         <FormControl>
                           <Input placeholder={`Image URL ${index + 1}`} {...field} />
                         </FormControl>
-                        {form.watch('imageUrls').length > 1 && (
-                            <Button type="button" variant="destructive" size="icon" onClick={() => form.setValue('imageUrls', form.getValues('imageUrls').filter((_, i) => i !== index))}>
+                        {fields.length > 1 && (
+                            <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)}>
                                 <Trash2 className="h-4 w-4" />
                             </Button>
                         )}
@@ -192,12 +192,13 @@ export default function AddProductPage() {
                 />
               ))}
               </div>
-               {form.watch('imageUrls').length < 4 && (
-                <Button type="button" variant="outline" size="sm" className="mt-2" onClick={() => form.setValue('imageUrls', [...form.getValues('imageUrls'), ''])}>
+               {fields.length < 4 && (
+                <Button type="button" variant="outline" size="sm" className="mt-2" onClick={() => append({ value: '' })}>
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Add Image
                 </Button>
                )}
+                <FormMessage>{form.formState.errors.imageUrls?.root?.message}</FormMessage>
             </div>
 
              <FormField
