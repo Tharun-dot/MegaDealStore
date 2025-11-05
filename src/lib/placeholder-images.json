@@ -1,3 +1,34 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "product-1",
+      "description": "A collection of small cacti in a modern white pot, placed in a corner.",
+      "imageUrl": "https://images.unsplash.com/photo-1645026648414-5327b8e4f79b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYWN0aSUyMHBsYW50fGVufDB8fHx8MTc2MjM0NjY0NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cacti plant"
+    },
+    {
+      "id": "product-2",
+      "description": "A string of pearls succulent plant with its distinctive pearl-like leaves.",
+      "imageUrl": "https://images.unsplash.com/photo-1693784393997-3e9e4b51020e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZWFybCUyMHN1Y2N1bGVudHxlbnwwfHx8fDE3NjIzNDY2NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pearl succulent"
+    },
+    {
+      "id": "product-3",
+      "description": "A lush Ficus Altissima plant with large, vibrant green leaves.",
+      "imageUrl": "https://images.unsplash.com/photo-1550710277-b7170d8b6320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmaWN1cyUyMHBsYW50fGVufDB8fHx8MTc2MjM0NjY0NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ficus plant"
+    },
+    {
+      "id": "product-4",
+      "description": "A small succulent plant potted in a classic terracotta pot.",
+      "imageUrl": "https://images.unsplash.com/photo-1669144457395-0ea4b03edaac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c3VjY3VsZW50JTIwcG90fGVufDB8fHx8MTc2MjMyNzY1Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "succulent pot"
+    },
+    {
+      "id": "hero-1",
+      "description": "A bright, airy room filled with various house plants, creating a serene indoor jungle.",
+      "imageUrl": "https://images.unsplash.com/photo-1604762525953-2c80447cc4a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxob3VzZSUyMHBsYW50c3xlbnwwfHx8fDE3NjIzNDY2NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "house plants"
+    }
+  ]
 }
