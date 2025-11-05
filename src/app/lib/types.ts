@@ -1,4 +1,4 @@
-import type { ImagePlaceholder } from './data';
+import type { ImagePlaceholder } from '@/lib/data';
 
 export type Product = {
   id: string;
@@ -17,4 +17,11 @@ export type Product = {
 export type CartItem = {
   product: Product;
   quantity: number;
+};
+
+export type UserProfile = {
+  id: string;
+  email: string;
+  name?: string;
+  photoURL?: string;
 };

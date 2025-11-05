@@ -23,13 +23,12 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useAuth, useFirestore } from '@/firebase';
+import { useAuth } from '@/firebase';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { doc, setDoc } from 'firebase/firestore';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -37,7 +36,6 @@ const loginSchema = z.object({
 });
 
 const signupSchema = z.object({
-  name: z.string().min(1, 'Name is required.'),
   email: z.string().email(),
   password: z.string().min(6, 'Password must be at least 6 characters.'),
   confirmPassword: z.string(),
@@ -47,12 +45,11 @@ const signupSchema = z.object({
 });
 
 
-export default function LoginPage() {
+export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const auth = useAuth();
-  const firestore = useFirestore();
 
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -61,7 +58,7 @@ export default function LoginPage() {
 
   const signupForm = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
-    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
+    defaultValues: { email: '', password: '', confirmPassword: '' },
   });
 
   const onLoginSubmit = async (values: z.infer<typeof loginSchema>) => {
@@ -70,7 +67,7 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       toast({ title: 'Login Successful' });
-      router.push('/');
+      router.push('/admin/products');
     } catch (error: any) {
       toast({
         title: 'Login Failed',
@@ -83,21 +80,12 @@ export default function LoginPage() {
   };
   
   const onSignupSubmit = async (values: z.infer<typeof signupSchema>) => {
-    if (!auth || !firestore) return;
+    if (!auth) return;
     setLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      const user = userCredential.user;
-
-      // Create a user profile document in Firestore
-      await setDoc(doc(firestore, "users", user.uid), {
-        id: user.uid,
-        email: values.email,
-        name: values.name,
-      });
-
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
       toast({ title: 'Signup Successful' });
-      router.push('/');
+      router.push('/admin/products');
     } catch (error: any) {
        toast({
         title: 'Signup Failed',
@@ -119,8 +107,8 @@ export default function LoginPage() {
         <TabsContent value="login">
             <Card>
             <CardHeader>
-                <CardTitle>Welcome Back</CardTitle>
-                <CardDescription>Enter your credentials to access your account.</CardDescription>
+                <CardTitle>Admin Login</CardTitle>
+                <CardDescription>Enter your credentials to access the dashboard.</CardDescription>
             </CardHeader>
             <CardContent>
                 <Form {...loginForm}>
@@ -132,7 +120,7 @@ export default function LoginPage() {
                         <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                            <Input placeholder="you@example.com" {...field} />
+                            <Input placeholder="admin@example.com" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -162,25 +150,12 @@ export default function LoginPage() {
         <TabsContent value="signup">
              <Card>
             <CardHeader>
-                <CardTitle>Create an Account</CardTitle>
-                <CardDescription>Enter your details to create a new account.</CardDescription>
+                <CardTitle>Create Admin Account</CardTitle>
+                <CardDescription>Enter your details to create a new admin account.</CardDescription>
             </CardHeader>
             <CardContent>
                 <Form {...signupForm}>
                 <form onSubmit={signupForm.handleSubmit(onSignupSubmit)} className="space-y-4">
-                     <FormField
-                      control={signupForm.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="John Doe" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                     <FormField
                     control={signupForm.control}
                     name="email"
@@ -188,7 +163,7 @@ export default function LoginPage() {
                         <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                            <Input placeholder="you@example.com" {...field} />
+                            <Input placeholder="admin@example.com" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>

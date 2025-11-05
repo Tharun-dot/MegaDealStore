@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Package, Menu, ShoppingCart, X } from 'lucide-react';
+import { Package, Menu, ShoppingCart, X, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { useRouter } from 'next/navigation';
+import { useAuth, useUser } from '@/firebase';
 
 
 const navLinks = ["Home", "About Us", "Gift Registry", "Blog", "Contact Us"];
@@ -159,6 +160,17 @@ const MobileNav = () => {
 
 export const Header = () => {
   const isMobile = useIsMobile();
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    if (auth) {
+      await auth.signOut();
+      router.push('/');
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -184,6 +196,30 @@ export const Header = () => {
 
         <div className="flex items-center gap-2">
           { isMobile ? <CartSheet /> : <CartPopover />}
+          {!isUserLoading && (
+            user ? (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <User className="h-6 w-6" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-56 mr-4">
+                  <div className="flex flex-col gap-2">
+                    <p className="font-semibold truncate">{user.email}</p>
+                    <Link href="/track-order/GO-12345">
+                      <Button variant="ghost" className="w-full justify-start">Track Order</Button>
+                    </Link>
+                    <Button variant="ghost" onClick={handleLogout} className="w-full justify-start text-red-500 hover:text-red-500">Logout</Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <Link href="/login">
+                <Button variant="ghost" size="sm">Login</Button>
+              </Link>
+            )
+          )}
         </div>
       </div>
     </header>
