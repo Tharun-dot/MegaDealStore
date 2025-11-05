@@ -16,15 +16,26 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { PlusCircle } from 'lucide-react';
+import Link from 'next/link';
 
 export default function AdminProductsPage() {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Products</CardTitle>
-        <CardDescription>
-          A list of all the products in your store.
-        </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Products</CardTitle>
+          <CardDescription>
+            A list of all the products in your store.
+          </CardDescription>
+        </div>
+        <Link href="/admin/products/new" passHref>
+          <Button>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add Product
+          </Button>
+        </Link>
       </CardHeader>
       <CardContent>
         <Table>

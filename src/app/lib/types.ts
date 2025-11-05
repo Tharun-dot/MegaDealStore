@@ -5,6 +5,7 @@ export type Product = {
   category: string;
   title: string;
   images: ImagePlaceholder[];
+  videoUrl?: string | null;
   originalPrice: number | null;
   price: number;
   labels: string[];
