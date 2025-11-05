@@ -198,7 +198,6 @@ export default function CheckoutPage() {
     // Maybe clear cart here or redirect to a thank you page
   };
 
-_x000D_
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
