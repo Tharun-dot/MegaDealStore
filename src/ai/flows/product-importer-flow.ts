@@ -31,6 +31,7 @@ const productImporterPrompt = ai.definePrompt({
   name: 'productImporterPrompt',
   input: { schema: ProductImportInputSchema },
   output: { schema: ProductImportOutputSchema },
+  model: 'googleai/gemini-pro',
   prompt: `You are an expert web scraping agent. Your task is to extract product information from a given URL.
 
   Analyze the content of the following URL: {{url}}
