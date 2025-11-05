@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/data';
 import ProductListings from '@/components/products/ProductListings';
-import { ArrowRight, Gamepad2, ShieldCheck, Truck } from 'lucide-react';
+import { ArrowRight, Wifi, ShieldCheck, Truck } from 'lucide-react';
 import ParallaxWrapper from '@/components/shared/ParallaxWrapper';
 import Link from 'next/link';
 
@@ -15,9 +15,9 @@ const features = [
     description: 'Enjoy free shipping on all your orders, with no minimum purchase required.',
   },
   {
-    icon: <Gamepad2 className="h-8 w-8 text-primary" />,
-    title: 'Pro-Grade Gear',
-    description: 'We guarantee top-quality, high-performance gear sourced from the best brands.',
+    icon: <Wifi className="h-8 w-8 text-primary" />,
+    title: 'Seamless Connectivity',
+    description: 'Our products are designed to integrate perfectly with your smart lifestyle.',
   },
   {
     icon: <ShieldCheck className="h-8 w-8 text-primary" />,
@@ -45,10 +45,10 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
           <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight drop-shadow-lg fade-in-up">
-            Level Up Your Setup
+            Discover Tomorrow's Tech
           </h1>
           <p className="mt-4 max-w-2xl text-lg md:text-xl text-primary-foreground/90 drop-shadow-md fade-in-up [animation-delay:0.2s]">
-            Discover a curated collection of high-performance gaming gear to dominate the competition.
+            Explore a curated collection of cutting-edge gadgets and electronics that shape the future.
           </p>
           <Link href="/#products">
             <Button size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground fade-in-up [animation-delay:0.4s]">

@@ -7,9 +7,9 @@ import { Toaster } from '@/components/ui/toaster';
 import { CartProvider } from '@/hooks/use-cart';
 
 export const metadata: Metadata = {
-  title: 'Game On - Top Tier Gaming Gear',
-  description: 'Shop the latest in gaming peripherals and accessories. Free shipping on all orders. Competitive prices.',
-  metadataBase: new URL('https://gameon.com'),
+  title: 'Tech Pulse - Your Gadget Destination',
+  description: 'Shop the latest in tech gadgets, smart home devices, and cutting-edge electronics. Free shipping on all orders.',
+  metadataBase: new URL('https://techpulse.com'),
 };
 
 export default function RootLayout({

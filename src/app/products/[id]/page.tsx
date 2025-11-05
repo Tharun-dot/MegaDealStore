@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 
   return {
-    title: `${product.title} – Game On`,
+    title: `${product.title} – Tech Pulse`,
     description: product.description,
     openGraph: {
       title: product.title,

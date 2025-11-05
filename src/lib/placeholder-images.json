@@ -2,51 +2,51 @@
   "placeholderImages": [
     {
       "id": "product-1",
-      "description": "A sleek, black mechanical gaming keyboard with vibrant RGB lighting.",
-      "imageUrl": "https://images.unsplash.com/photo-1598550463033-8942e78b01ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnYW1pbmclMjBrZXlib2FyZHxlbnwwfHx8fDE3NjIzNDY2NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gaming keyboard"
+      "description": "A sleek smartwatch displaying a colorful watch face with health metrics.",
+      "imageUrl": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbWFydHdhdGNofGVufDB8fHx8MTc2MjkxOTYxNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "smartwatch wearable"
     },
     {
       "id": "product-2",
-      "description": "An ergonomic, lightweight gaming mouse with a honeycomb shell and RGB lighting.",
-      "imageUrl": "https://images.unsplash.com/photo-1600965933348-10b86b89a376?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW1pbmclMjBtb3VzZXxlbnwwfHx8fDE3NjIzNDY2NDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gaming mouse"
+      "description": "A pair of stylish, modern over-ear noise-cancelling headphones.",
+      "imageUrl": "https://images.unsplash.com/photo-1505238680356-6678fb74462c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmVzfGVufDB8fHx8MTc2MjkxOTYxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "headphones audio"
     },
     {
       "id": "product-3",
-      "description": "A modern gaming headset with a microphone, featuring purple ambient lighting.",
-      "imageUrl": "https://images.unsplash.com/photo-1610041321420-a596dd14ebc9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW1pbmclMjBoZWFkc2V0fGVufDB8fHx8MTc2MjM0NjY0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gaming headset"
+      "description": "A cylindrical smart home speaker on a wooden table.",
+      "imageUrl": "https://images.unsplash.com/photo-1535131749005-c75586941e33?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbWFydCUyMHNwZWFrZXJ8ZW58MHx8fHwxNzYyOTE5NjE2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "smart speaker"
     },
     {
       "id": "product-4",
-      "description": "An ultrawide curved gaming monitor displaying a vibrant, colorful game scene.",
-      "imageUrl": "https://images.unsplash.com/photo-1627824141932-9b7941d31d1f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxnYW1pbmclMjBtb25pdG9yfGVufDB8fHx8MTc2MjM0NjY0N3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gaming monitor"
+      "description": "A white quadcopter drone flying against a clear blue sky.",
+      "imageUrl": "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkcm9uZXxlbnwwfHx8fDE3NjI5MTk2MTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "drone quadcopter"
     },
     {
       "id": "hero-1",
-      "description": "A stylish and modern gaming setup with a large monitor, RGB keyboard, and mouse, in a dark room.",
-      "imageUrl": "https://images.unsplash.com/photo-1603481588273-2f908a9a7a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW1pbmclMjBzZXR1cHxlbnwwfHx8fDE3NjIzNDY2NDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gaming setup"
+      "description": "A minimalist and modern desk setup with a laptop, monitor, and various tech gadgets.",
+      "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwZGVza3xlbnwwfHx8fDE3NjI5MTk2MTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tech setup"
     },
     {
       "id": "product-5",
-      "description": "The white PlayStation 5 console standing vertically with its controller.",
-      "imageUrl": "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwbGF5c3RhdGlvbiUyMDV8ZW58MHx8fHwxNzYyODg0NjIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "playstation console"
+      "description": "A thin and light silver ultrabook laptop open on a clean desk.",
+      "imageUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsYXB0b3B8ZW58MHx8fHwxNzYyOTE5NjE4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "laptop ultrabook"
     },
     {
       "id": "product-6",
-      "description": "The black Xbox Series X console standing vertically.",
-      "imageUrl": "https://images.unsplash.com/photo-1621259182962-672535492167?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx4Ym94JTIwc2VyaWVzJTIweHxlbnwwfHx8fDE3NjI4ODQ2ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "xbox console"
+      "description": "A professional mirrorless camera with a lens attached, on a tripod.",
+      "imageUrl": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtaXJyb3JsZXNzJTIwY2FtZXJhfGVufDB8fHx8MTc2MjkxOTYxOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mirrorless camera"
     },
     {
       "id": "product-7",
-      "description": "The Nintendo Switch OLED model with white joy-cons attached.",
-      "imageUrl": "https://images.unsplash.com/photo-1654922345229-39f8a4e3933c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxuaW50ZW5kbyUyMHN3aXRjaCUyMG9sZWR8ZW58MHx8fHwxNzYyODg0NzE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "nintendo switch"
+      "description": "A person wearing a virtual reality headset, immersed in a digital world.",
+      "imageUrl": "https://images.unsplash.com/photo-1593349480503-68d69b3dfac8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx2ciUyMGhlYWRzZXR8ZW58MHx8fHwxNzYyOTE5NjIwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vr headset"
     }
   ]
 }

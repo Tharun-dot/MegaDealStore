@@ -13,123 +13,133 @@ export const PlaceHolderImages: ImagePlaceholder[] = placeholderData.placeholder
 export const products: Product[] = [
   {
     id: 'product-1',
-    category: 'keyboards',
-    title: 'HyperStrike Pro Mechanical Keyboard',
+    category: 'wearables',
+    title: 'Aura Smartwatch Series 8',
     image: PlaceHolderImages.find((p) => p.id === 'product-1')!,
-    originalPrice: 129.99,
-    price: 99.99,
+    originalPrice: 429.00,
+    price: 399.00,
     labels: ['On Sale'],
-    reviewsCount: 258,
+    reviewsCount: 480,
     rating: 4.8,
-    description: "Experience lightning-fast response times with custom red switches. Full RGB backlighting and a durable aluminum frame make this the ultimate gaming keyboard."
+    description: "Stay connected and track your health with the Aura Smartwatch. Features a stunning always-on display, advanced health sensors, and seamless smartphone integration."
   },
   {
     id: 'product-2',
-    category: 'mice',
-    title: 'Vortex Precision Gaming Mouse',
+    category: 'audio',
+    title: 'Nebula Noise-Cancelling Headphones',
     image: PlaceHolderImages.find((p) => p.id === 'product-2')!,
     originalPrice: null,
-    price: 79.99,
+    price: 349.99,
     labels: ['New'],
-    reviewsCount: 150,
+    reviewsCount: 215,
     rating: 4.9,
-    description: "Ultra-lightweight honeycomb design at only 60g. Features a 26,000 DPI sensor for pixel-perfect tracking and flawless accuracy."
+    description: "Immerse yourself in pure audio with industry-leading noise cancellation. Enjoy up to 30 hours of battery life and crystal-clear call quality."
   },
   {
     id: 'product-3',
-    category: 'headsets',
-    title: 'Aegis-7 Surround Sound Headset',
+    category: 'smart-home',
+    title: 'Helios Smart Speaker',
     image: PlaceHolderImages.find((p) => p.id === 'product-3')!,
     originalPrice: null,
-    price: 149.99,
+    price: 99.99,
     labels: [],
-    reviewsCount: 192,
+    reviewsCount: 732,
     rating: 4.7,
-    description: "Immerse yourself in 7.1 surround sound. Crystal-clear noise-cancelling microphone and plush memory foam earcups for marathon gaming sessions."
+    description: "Your personal voice assistant. Play music, set alarms, control smart home devices, and get answers to questions with this compact and powerful smart speaker."
   },
   {
     id: 'product-4',
-    category: 'monitors',
-    title: 'Odyssey G9 49" Curved Monitor',
+    category: 'drones',
+    title: 'Stratus 4K Camera Drone',
     image: PlaceHolderImages.find((p) => p.id === 'product-4')!,
-    originalPrice: 1599.99,
-    price: 1399.99,
+    originalPrice: 899.99,
+    price: 799.99,
     labels: ["Free Shipping"],
-    reviewsCount: 88,
+    reviewsCount: 121,
     rating: 4.9,
-    description: "Unleash a new level of immersion with the 1000R curved screen. 240Hz refresh rate, 1ms response time, and QLED technology for stunning visuals."
+    description: "Capture breathtaking aerial footage in stunning 4K. Features a 3-axis gimbal for stable video, intelligent flight modes, and a 30-minute flight time."
   },
   {
     id: 'product-5',
-    category: 'consoles',
-    title: 'PlayStation 5 Console',
+    category: 'laptops',
+    title: 'Zenith Ultrabook Pro',
     image: PlaceHolderImages.find((p) => p.id === 'product-5')!,
     originalPrice: null,
-    price: 499.99,
+    price: 1499.99,
     labels: ["Best Seller"],
-    reviewsCount: 1204,
+    reviewsCount: 305,
     rating: 4.9,
-    description: "Experience next-gen gaming with the PlayStation 5. Ultra-high-speed SSD, deeper immersion with support for haptic feedback, adaptive triggers and 3D Audio."
+    description: "Power and portability combined. This ultrabook features a 14-inch OLED display, the latest Intel Core i9 processor, and a feather-light chassis for productivity on the go."
   },
   {
     id: 'product-6',
-    category: 'consoles',
-    title: 'Xbox Series X',
+    category: 'cameras',
+    title: 'Orion Mirrorless Camera M50',
     image: PlaceHolderImages.find((p) => p.id === 'product-6')!,
     originalPrice: null,
-    price: 499.99,
+    price: 749.99,
     labels: [],
-    reviewsCount: 987,
+    reviewsCount: 189,
     rating: 4.8,
-    description: "The fastest, most powerful Xbox ever. Explore rich new worlds with 12 teraflops of raw graphic processing power, DirectX ray tracing, a custom SSD, and 4K gaming."
+    description: "Unleash your creativity with this compact mirrorless camera. 24.1MP sensor, 4K video recording, and a versatile vari-angle touchscreen."
   },
   {
     id: 'product-7',
-    category: 'consoles',
-    title: 'Nintendo Switch - OLED Model',
+    category: 'vr',
+    title: 'Metaverse Quest 3 VR Headset',
     image: PlaceHolderImages.find((p) => p.id === 'product-7')!,
-    originalPrice: 349.99,
-    price: 329.99,
+    originalPrice: 549.99,
+    price: 499.99,
     labels: ["On Sale"],
-    reviewsCount: 1543,
+    reviewsCount: 543,
     rating: 4.8,
-    description: "Play at home on the TV or on-the-go with a vibrant 7-inch OLED screen. Features a wide adjustable stand, a dock with a wired LAN port, 64 GB of internal storage, and enhanced audio."
+    description: "Dive into immersive virtual and mixed reality experiences. Redesigned controllers, higher resolution displays, and a vast library of games and apps await."
   },
 ];
 
 export const categories = [
   {
-    id: 'keyboards',
-    title: 'Keyboards',
-    breadcrumb: ['Home', 'Keyboards'],
+    id: 'wearables',
+    title: 'Wearables',
+    breadcrumb: ['Home', 'Wearables'],
   },
   {
-    id: 'mice',
-    title: 'Mice',
-    breadcrumb: ['Home', 'Mice'],
+    id: 'audio',
+    title: 'Audio',
+    breadcrumb: ['Home', 'Audio'],
   },
   {
-    id: 'headsets',
-    title: 'Headsets',
-    breadcrumb: ['Home', 'Headsets'],
+    id: 'smart-home',
+    title: 'Smart Home',
+    breadcrumb: ['Home', 'Smart Home'],
   },
   {
-    id: 'monitors',
-    title: 'Monitors',
-    breadcrumb: ['Home', 'Monitors'],
+    id: 'drones',
+    title: 'Drones',
+    breadcrumb: ['Home', 'Drones'],
   },
   {
-    id: 'consoles',
-    title: 'Consoles',
-    breadcrumb: ['Home', 'Consoles'],
+    id: 'laptops',
+    title: 'Laptops',
+    breadcrumb: ['Home', 'Laptops'],
+  },
+  {
+    id: 'cameras',
+    title: 'Cameras',
+    breadcrumb: ['Home', 'Cameras'],
+  },
+  {
+    id: 'vr',
+    title: 'VR',
+    breadcrumb: ['Home', 'VR'],
   },
 ];
 
 export const priceFilters = [
   { label: 'All', min: 0, max: Infinity },
   { label: '$0 - $99.99', min: 0, max: 99.99 },
-  { label: '$100 - $249.99', min: 100, max: 249.99 },
-  { label: 'Over $250', min: 250, max: Infinity },
+  { label: '$100 - $499.99', min: 100, max: 499.99 },
+  { label: 'Over $500', min: 500, max: Infinity },
 ];
 
 export const sortOptions = [
