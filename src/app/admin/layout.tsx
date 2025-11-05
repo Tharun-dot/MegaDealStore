@@ -16,7 +16,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, useUser } from '@/firebase';
 import { useEffect } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 
 function LogoutButton() {
@@ -48,27 +47,20 @@ export default function AdminLayout({
   const router = useRouter();
 
   useEffect(() => {
-    // This is the key fix: only redirect if loading is complete AND there's no user.
+    // Only redirect if loading is complete AND there's no user.
+    // This prevents redirecting before Firebase has a chance to check auth state.
     if (!isUserLoading && !user) {
       router.push('/admin/login');
     }
   }, [user, isUserLoading, router]);
 
-  // While checking auth, show a loading state instead of the children.
-  // This prevents the redirect loop.
-  if (isUserLoading || !user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-          <div className="p-8 bg-card rounded-lg shadow-lg flex flex-col items-center gap-4 w-full max-w-md">
-              <p className="text-lg font-semibold">Loading Admin Dashboard...</p>
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
-          </div>
-      </div>
-    );
+  // Don't render the full layout (including children) if we are still loading and don't have a user.
+  // This prevents a flash of the admin UI before the redirect.
+  // However, we no longer show a skeleton, which speeds up perceived load time.
+  if (isUserLoading && !user) {
+    return null;
   }
 
-  // If loading is done and we have a user, render the full layout.
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
