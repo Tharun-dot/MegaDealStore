@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { placeholderImages as PlaceHolderImages } from '@/lib/placeholder-images.json';
+import { placeholderImages } from '@/lib/placeholder-images.json';
 import ProductListings from '@/components/products/ProductListings';
 import { ArrowRight, ShieldCheck, Truck, CreditCard, LifeBuoy } from 'lucide-react';
 import ParallaxWrapper from '@/components/shared/ParallaxWrapper';
 import Link from 'next/link';
 
-const heroImage = PlaceHolderImages.find((img) => img.id === 'hero-1');
+const heroImage = placeholderImages.find((img) => img.id === 'hero-1');
 
 const features = [
   {
@@ -52,7 +52,7 @@ export default function Home() {
           <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight drop-shadow-lg fade-in-up">
             MegaDealsStore — Premium Products Under ₹999
           </h1>
-          <p className="mt-4 max-w-2xl text-lg md:text-xl text-primary-foreground/90 drop-shadow-md fade-in-up [animation-delay:0.2s]">
+          <p className="mt-4 max-w-2xl text-lg md:text-xl text-white drop-shadow-md fade-in-up [animation-delay:0.2s]">
             Great quality doesn’t need to be expensive.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-8 fade-in-up [animation-delay:0.4s]">
