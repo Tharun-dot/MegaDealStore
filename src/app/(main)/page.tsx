@@ -70,6 +70,8 @@ export default function Home() {
         </div>
       </section>
 
+      <ProductListings />
+
       <section id="features" className="py-16 sm:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
@@ -85,8 +87,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <ProductListings />
     </div>
   );
 }
