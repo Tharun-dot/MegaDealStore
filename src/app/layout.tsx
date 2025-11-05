@@ -7,9 +7,9 @@ import { Toaster } from '@/components/ui/toaster';
 import { CartProvider } from '@/hooks/use-cart';
 
 export const metadata: Metadata = {
-  title: 'Tech Pulse - Your Gadget Destination',
-  description: 'Shop the latest in tech gadgets, smart home devices, and cutting-edge electronics. Free shipping on all orders.',
-  metadataBase: new URL('https://techpulse.com'),
+  title: 'EliteDropship - Shop Smart. Save Big.',
+  description: 'Handpicked Dropshipping Products With Fast Delivery. High conversion focused, fast, scalable, SEO optimized, and mobile responsive e-commerce.',
+  metadataBase: new URL('https://elitedropship.com'),
 };
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
       <body className={cn('font-body antialiased', 'min-h-screen bg-background font-sans')}>
         <CartProvider>

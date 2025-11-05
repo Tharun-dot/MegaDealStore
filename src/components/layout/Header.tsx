@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Zap, Menu, ShoppingCart, X } from 'lucide-react';
+import { Gem, Menu, ShoppingCart, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -165,8 +165,8 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           {isMobile && <MobileNav />}
           <Link href="/" className="flex items-center gap-2 font-bold text-lg font-headline">
-            <Zap className="h-6 w-6 text-primary" />
-            <span>Tech Pulse</span>
+            <Gem className="h-6 w-6 text-primary" />
+            <span>EliteDropship</span>
           </Link>
         </div>
         

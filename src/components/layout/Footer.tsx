@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Facebook, Instagram, Zap, Twitter } from "lucide-react";
+import { Facebook, Instagram, Gem, Twitter } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -69,8 +69,8 @@ export const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col items-start">
               <Link href="/" className="flex items-center gap-2 font-bold text-xl font-headline mb-4">
-                <Zap className="h-7 w-7 text-primary" />
-                <span>Tech Pulse</span>
+                <Gem className="h-7 w-7 text-primary" />
+                <span>EliteDropship</span>
               </Link>
               <div className="flex space-x-4">
                 {socialIcons.map((social) => (
@@ -106,7 +106,7 @@ export const Footer = () => {
         </div>
 
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Tech Pulse. All Rights Reserved</p>
+          <p>© {new Date().getFullYear()} EliteDropship. All Rights Reserved</p>
         </div>
       </div>
     </footer>
