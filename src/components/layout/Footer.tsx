@@ -7,7 +7,7 @@ import { Facebook, Instagram, Package, Twitter } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const footerLinks = ["Blog", "Terms and Conditions", "Become an Affiliate", "Product Index", "Category Index"];
+const footerLinks = ["About Us", "Gift Registry", "Blog", "Contact Us", "Terms and Conditions"];
 const socialIcons = [
   { icon: <Facebook className="h-5 w-5" />, href: "#", name: "Facebook" },
   { icon: <Twitter className="h-5 w-5" />, href: "#", name: "Twitter" },
@@ -86,11 +86,10 @@ export const Footer = () => {
               <div className="space-y-2">
                 <h4 className="font-semibold">Shop</h4>
                 <ul className="space-y-1">
-                  <li><Link href="/accessories" className="text-sm text-muted-foreground hover:text-primary">Accessories</Link></li>
-                  <li><Link href="/electronics" className="text-sm text-muted-foreground hover:text-primary">Electronics</Link></li>
-                  <li><Link href="/home-kitchen" className="text-sm text-muted-foreground hover:text-primary">Home & Kitchen</Link></li>
-                  <li><Link href="/fitness" className="text-sm text-muted-foreground hover:text-primary">Fitness</Link></li>
-                  <li><Link href="/gadgets" className="text-sm text-muted-foreground hover:text-primary">Gadgets</Link></li>
+                  <li><Link href="/#products" className="text-sm text-muted-foreground hover:text-primary">Accessories</Link></li>
+                  <li><Link href="/#products" className="text-sm text-muted-foreground hover:text-primary">Lifestyle & Fitness</Link></li>
+                  <li><Link href="/#products" className="text-sm text-muted-foreground hover:text-primary">Gadgets</Link></li>
+                  <li><Link href="/#products" className="text-sm text-muted-foreground hover:text-primary">Home & Kitchen</Link></li>
                 </ul>
               </div>
               <div className="space-y-2">

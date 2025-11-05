@@ -143,7 +143,7 @@ const MobileNav = () => {
           {navLinks.map((link) => (
             <Link
               key={link}
-              href={link === 'Home' ? '/' : `/${link.toLowerCase().replace(' ', '-')}`}
+              href={link === 'Home' ? '/' : `/${link.toLowerCase().replace(/\s+/g, '-')}`}
               className="text-lg font-medium text-foreground hover:text-primary"
               onClick={() => setIsOpen(false)}
             >

@@ -11,18 +11,18 @@ const heroImage = PlaceHolderImages.find((img) => img.id === 'hero-1');
 const features = [
   {
     icon: <Truck className="h-8 w-8 text-primary" />,
-    title: 'Free Shipping',
-    description: 'Enjoy free shipping on selected items, with no minimum purchase required.',
+    title: 'Top quality products at lowest price',
+    description: 'We bring handpicked, high-quality products from verified suppliers.',
   },
   {
     icon: <CreditCard className="h-8 w-8 text-primary" />,
-    title: 'Secure Payments',
-    description: 'Your transactions are safe with our encrypted, secure payment gateway.',
+    title: 'All products under ₹599 / ₹999',
+    description: 'Great quality doesn’t need to be expensive. Enjoy premium without the price tag.',
   },
   {
     icon: <ShieldCheck className="h-8 w-8 text-primary" />,
-    title: 'Easy Returns',
-    description: 'Hassle-free returns on all products within 30 days of your purchase.',
+    title: 'Fast delivery + Easy returns',
+    description: 'Get your products delivered fast, with a hassle-free return policy.',
   },
   {
     icon: <LifeBuoy className="h-8 w-8 text-primary" />,
@@ -50,15 +50,15 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
           <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight drop-shadow-lg fade-in-up">
-            India’s #1 Budget Deals Store
+            MegaDealsStore — Premium Products Under ₹999
           </h1>
           <p className="mt-4 max-w-2xl text-lg md:text-xl text-primary-foreground/90 drop-shadow-md fade-in-up [animation-delay:0.2s]">
-            Premium products under ₹999 — COD Available | FREE delivery.
+            Great quality doesn’t need to be expensive.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-8 fade-in-up [animation-delay:0.4s]">
             <Link href="/#products">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                Start Shopping <ArrowRight className="ml-2 h-5 w-5" />
+                Shop Now <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Link href="/track-order/GO-12345">
