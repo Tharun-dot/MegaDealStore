@@ -5,8 +5,10 @@ import type { Product as AppProduct } from "@/app/lib/types";
 import type { ProductSuggestionOutput, ProductSuggestionInput, Product as AIProduct } from "@/ai/flows/product-suggestion-based-on-view-history";
 import { getProductSuggestions } from "@/ai/flows/product-suggestion-based-on-view-history";
 import ProductCard from "./ProductCard";
-import { products as allProducts, PlaceHolderImages } from "@/lib/data";
+import { PlaceHolderImages } from "@/lib/data";
 import { Skeleton } from "../ui/skeleton";
+import { useCollection, useFirestore } from "@/firebase";
+import { collection, limit, query, where } from "firebase/firestore";
 
 const mapAppProductToAIProduct = (product: AppProduct): AIProduct => {
   return {
@@ -21,7 +23,7 @@ const mapAppProductToAIProduct = (product: AppProduct): AIProduct => {
   };
 };
 
-const mapAIProductToAppProduct = (aiProduct: AIProduct): AppProduct | undefined => {
+const mapAIProductToAppProduct = (aiProduct: AIProduct, allProducts: AppProduct[]): AppProduct | undefined => {
   // In a real app, you'd fetch product details from your DB using the ID.
   // Here, we'll find it in our static data.
   const fullProduct = allProducts.find(p => p.id === aiProduct.id);
@@ -50,6 +52,12 @@ const MAX_HISTORY_LENGTH = 5;
 const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) => {
   const [suggestions, setSuggestions] = useState<AppProduct[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const firestore = useFirestore();
+  const productsRef = collection(firestore, 'products');
+  // Fetch 4 products to have a fallback if one is the current product
+  const q = query(productsRef, where('id', '!=', currentProduct.id), limit(3));
+  const { data: allProducts, isLoading: productsLoading } = useCollection<AppProduct>(q);
 
   useEffect(() => {
     // This should only run on the client
@@ -83,6 +91,8 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
     };
 
     const fetchSuggestions = async () => {
+      if (!allProducts) return;
+
       setLoading(true);
       const viewingHistory = updateViewingHistory();
       const input: ProductSuggestionInput = {
@@ -96,10 +106,14 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
         // For this demo, we mock the AI response since we can't provide the full list.
         // const result = await getProductSuggestions(input);
         const result = getMockSuggestions(currentProduct.id);
-        const suggestedProducts = result.map(mapAIProductToAppProduct).filter((p): p is AppProduct => !!p);
+        const suggestedProducts = result.map(aiProd => mapAIProductToAppProduct(aiProd, allProducts)).filter((p): p is AppProduct => !!p);
         setSuggestions(suggestedProducts);
       } catch (error) {
         console.error("Error fetching product suggestions:", error);
+        // Fallback to mock suggestions
+        const mockResult = getMockSuggestions(currentProduct.id);
+        const suggestedProducts = mockResult.map(aiProd => mapAIProductToAppProduct(aiProd, allProducts)).filter((p): p is AppProduct => !!p);
+        setSuggestions(suggestedProducts);
       } finally {
         setLoading(false);
       }
@@ -108,6 +122,7 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
     // Mock suggestions because the AI flow needs a list of all available products to choose from,
     // which we can't provide in this context.
     const getMockSuggestions = (currentId: string): AIProduct[] => {
+      if (!allProducts) return [];
       return allProducts
         .filter(p => p.id !== currentId)
         .slice(0, 3)
@@ -115,14 +130,18 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
     };
 
 
-    fetchSuggestions();
-  }, [currentProduct]);
+    if (allProducts) {
+      fetchSuggestions();
+    }
+  }, [currentProduct, allProducts]);
+
+  const isLoadingSuggestions = loading || productsLoading;
 
   return (
     <div className="bg-card py-16 sm:py-24">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 font-headline">You Might Also Like</h2>
-        {loading ? (
+        {isLoadingSuggestions ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <Skeleton className="h-96 w-full" />
             <Skeleton className="h-96 w-full" />

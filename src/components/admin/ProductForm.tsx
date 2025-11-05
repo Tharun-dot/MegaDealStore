@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -27,6 +26,17 @@ import {
 } from '@/components/ui/select';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import type { Product } from '@/app/lib/types';
+import { useFirestore } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import { addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { collection } from 'firebase/firestore';
+
+const imageSchema = z.object({ 
+  id: z.string().optional(),
+  description: z.string().optional(),
+  imageUrl: z.string().url('Must be a valid URL.'),
+  imageHint: z.string().optional(),
+});
 
 const productSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
@@ -34,8 +44,11 @@ const productSchema = z.object({
   category: z.string().min(1, 'Category is required.'),
   price: z.coerce.number().min(0, 'Price must be a positive number.'),
   originalPrice: z.coerce.number().optional().nullable(),
-  imageUrls: z.array(z.object({ value: z.string().url('Must be a valid URL.') })).min(1, 'At least one image is required.').max(4, 'You can add up to 4 images.'),
+  images: z.array(imageSchema).min(1, 'At least one image is required.').max(4, 'You can add up to 4 images.'),
   videoUrl: z.string().url('Must be a valid URL.').optional().or(z.literal('')),
+  rating: z.coerce.number().min(0).max(5).default(0),
+  reviewsCount: z.coerce.number().min(0).default(0),
+  labels: z.array(z.string()).default([]),
 });
 
 type ProductFormValues = z.infer<typeof productSchema>;
@@ -49,11 +62,12 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
   const router = useRouter();
   const { toast } = useToast();
   const isEditing = !!initialData;
+  const firestore = useFirestore();
 
   const defaultValues = initialData
     ? {
         ...initialData,
-        imageUrls: initialData.images.map(img => ({ value: img.imageUrl })),
+        images: initialData.images.map(img => ({ imageUrl: img.imageUrl, id: img.id, description: img.description, imageHint: img.imageHint })),
         videoUrl: initialData.videoUrl ?? '',
       }
     : {
@@ -62,8 +76,11 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
         category: '',
         price: 0,
         originalPrice: null,
-        imageUrls: [{ value: '' }],
+        images: [{ imageUrl: '', description: '', imageHint: '' }],
         videoUrl: '',
+        rating: 0,
+        reviewsCount: 0,
+        labels: [],
       };
 
   const form = useForm<ProductFormValues>({
@@ -73,18 +90,20 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
   
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: 'imageUrls'
+    name: 'images'
   });
 
   const onSubmit = (data: ProductFormValues) => {
-    if (isEditing) {
-      console.log('Updated Product Data:', { ...data, id: productId });
+    if (isEditing && productId) {
+      const productRef = doc(firestore, 'products', productId);
+      setDocumentNonBlocking(productRef, data, { merge: true });
       toast({
         title: 'Product Updated!',
         description: `${data.title} has been successfully updated.`,
       });
     } else {
-      console.log('New Product Data:', data);
+      const productsRef = collection(firestore, 'products');
+      addDocumentNonBlocking(productsRef, data);
       toast({
         title: 'Product Added!',
         description: `${data.title} has been successfully added to your store.`,
@@ -93,8 +112,6 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
     router.push('/admin/products');
   };
   
-  const title = isEditing ? 'Edit Product' : 'Add New Product';
-  const description = isEditing ? 'Make changes to your product below.' : 'Fill out the form below to add a new product.';
   const buttonText = isEditing ? 'Save Changes' : 'Add Product';
 
   return (
@@ -186,7 +203,7 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
                 <FormField
                   key={field.id}
                   control={form.control}
-                  name={`imageUrls.${index}.value`}
+                  name={`images.${index}.imageUrl`}
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex items-center gap-2">
@@ -206,12 +223,12 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
               ))}
               </div>
                {fields.length < 4 && (
-                <Button type="button" variant="outline" size="sm" className="mt-2" onClick={() => append({ value: '' })}>
+                <Button type="button" variant="outline" size="sm" className="mt-2" onClick={() => append({ imageUrl: '' })}>
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Add Image
                 </Button>
                )}
-                <FormMessage>{form.formState.errors.imageUrls?.root?.message}</FormMessage>
+                <FormMessage>{form.formState.errors.images?.root?.message}</FormMessage>
             </div>
 
              <FormField

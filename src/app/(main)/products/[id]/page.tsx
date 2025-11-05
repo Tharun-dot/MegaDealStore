@@ -1,49 +1,27 @@
-import { products } from "@/lib/data";
+
+'use client';
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, CheckCircle, Truck, Shield } from "lucide-react";
 import StarRating from "@/components/products/StarRating";
 import AddToCartButton from "@/components/products/AddToCartButton";
 import SuggestedProducts from "@/components/products/SuggestedProducts";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import ProductImageGallery from "@/components/products/ProductImageGallery";
+import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
+import type { Product } from "@/app/lib/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
-type ProductPageProps = {
-  params: {
-    id: string;
-  };
-};
 
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const product = products.find((p) => p.id === params.id);
-  if (!product) {
-    return {
-      title: 'Product Not Found',
-    }
+export default function ProductPage({ params }: { params: { id: string } }) {
+  const firestore = useFirestore();
+  const productRef = useMemoFirebase(() => doc(firestore, "products", params.id), [firestore, params.id]);
+  const { data: product, isLoading } = useDoc<Product>(productRef);
+
+  if (isLoading) {
+    return <ProductPageSkeleton />;
   }
-
-  return {
-    title: `${product.title} – MegaDealsStore`,
-    description: product.description,
-    openGraph: {
-      title: product.title,
-      description: product.description,
-      images: [
-        {
-          url: product.images[0].imageUrl,
-          width: 600,
-          height: 600,
-          alt: product.title,
-        },
-      ],
-    },
-  };
-}
-
-
-export default function ProductPage({ params }: ProductPageProps) {
-  const product = products.find((p) => p.id === params.id);
 
   if (!product) {
     notFound();
@@ -95,3 +73,43 @@ export default function ProductPage({ params }: ProductPageProps) {
     </div>
   );
 }
+
+const ProductPageSkeleton = () => {
+  return (
+    <div className="bg-background">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
+          <div>
+            <Skeleton className="aspect-square w-full rounded-lg" />
+            <div className="grid grid-cols-5 gap-2 mt-4">
+              <Skeleton className="aspect-square w-full rounded-md" />
+              <Skeleton className="aspect-square w-full rounded-md" />
+              <Skeleton className="aspect-square w-full rounded-md" />
+              <Skeleton className="aspect-square w-full rounded-md" />
+              <Skeleton className="aspect-square w-full rounded-md" />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <Skeleton className="h-10 w-3/4" />
+            <div className="flex items-center gap-4">
+              <Skeleton className="h-6 w-24" />
+              <Skeleton className="h-6 w-16" />
+            </div>
+            <Skeleton className="h-8 w-40" />
+            <Skeleton className="h-20 w-full" />
+            <Skeleton className="h-12 w-48" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// This can be removed if not using Next.js file-based metadata
+// export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+//   // With Firestore, we would need to fetch this data on the server.
+//   // For now, this is client-rendered so metadata is harder.
+//   return {
+//     title: 'Product – MegaDealsStore',
+//   };
+// }

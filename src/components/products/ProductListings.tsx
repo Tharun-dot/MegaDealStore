@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { products, priceFilters, sortOptions } from '@/lib/data';
+import { priceFilters, sortOptions } from '@/lib/data';
 import type { Product } from '@/app/lib/types';
 import ProductCard from './ProductCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -9,45 +9,51 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { LayoutGrid, List } from 'lucide-react';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy, where, Query } from 'firebase/firestore';
+import { Skeleton } from '../ui/skeleton';
 
 const ProductListings = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortOrder, setSortOrder] = useState('default');
   const [priceFilter, setPriceFilter] = useState('All');
 
-  const filteredAndSortedProducts = useMemo(() => {
-    let filtered = [...products];
+  const firestore = useFirestore();
+  
+  const productsQuery = useMemoFirebase(() => {
+    let q: Query = collection(firestore, 'products');
 
-    // Filter by price
     const selectedPriceRange = priceFilters.find(p => p.label === priceFilter);
-    if (selectedPriceRange) {
-      filtered = filtered.filter(p => p.price >= selectedPriceRange.min && p.price <= selectedPriceRange.max);
+    if (selectedPriceRange && selectedPriceRange.label !== 'All') {
+      q = query(q, where('price', '>=', selectedPriceRange.min), where('price', '<=', selectedPriceRange.max));
     }
     
-    // Sort
     switch (sortOrder) {
       case 'price-asc':
-        filtered.sort((a, b) => a.price - b.price);
+        q = query(q, orderBy('price', 'asc'));
         break;
       case 'price-desc':
-        filtered.sort((a, b) => b.price - a.price);
+        q = query(q, orderBy('price', 'desc'));
         break;
       case 'name-asc':
-        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        q = query(q, orderBy('title', 'asc'));
         break;
       case 'newest':
-        // Assuming higher ID means newer for this static data
-        filtered.sort((a, b) => parseInt(b.id.split('-')[1]) - parseInt(a.id.split('-')[1]));
+        // Assuming a 'createdAt' field. If not present, this will error.
+        // For demo, we'll sort by title as a fallback.
+        // q = query(q, orderBy('createdAt', 'desc'));
+         q = query(q, orderBy('title', 'desc'));
         break;
       case 'rating-desc':
-        filtered.sort((a, b) => b.rating - a.rating);
+        q = query(q, orderBy('rating', 'desc'));
         break;
       default:
         break;
     }
+    return q;
+  }, [firestore, priceFilter, sortOrder]);
 
-    return filtered;
-  }, [products, priceFilter, sortOrder]);
+  const { data: products, isLoading } = useCollection<Product>(productsQuery);
 
   return (
     <section id="products" className="bg-card py-12 sm:py-16">
@@ -73,7 +79,7 @@ const ProductListings = () => {
           {/* Product Grid */}
           <div className="w-full md:w-3/4 lg:w-4/5">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-              <p className="text-muted-foreground">Showing {filteredAndSortedProducts.length} results</p>
+              <p className="text-muted-foreground">Showing {products?.length ?? 0} results</p>
               <div className="flex items-center gap-4">
                  <Select value={sortOrder} onValueChange={setSortOrder}>
                   <SelectTrigger className="w-[200px]">
@@ -98,23 +104,27 @@ const ProductListings = () => {
               </div>
             </div>
             
-            {viewMode === 'grid' ? (
+            {isLoading && <ProductGridSkeleton />}
+            {!isLoading && products && viewMode === 'grid' ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredAndSortedProducts.map((product, index) => (
+                {products.map((product, index) => (
                    <div key={product.id} className="fade-in-up" style={{ animationDelay: `${index * 50}ms`}}>
                      <ProductCard product={product} viewMode="grid" />
                    </div>
                 ))}
               </div>
-            ) : (
+            ) : null}
+             {!isLoading && products && viewMode === 'list' ? (
               <div className="space-y-6">
-                {filteredAndSortedProducts.map((product, index) => (
+                {products.map((product, index) => (
                    <div key={product.id} className="fade-in-up" style={{ animationDelay: `${index * 50}ms`}}>
                      <ProductCard product={product} viewMode="list" />
                    </div>
                 ))}
               </div>
-            )}
+            ) : null}
+            {!isLoading && !products?.length && <p>No products found.</p>}
+
             {/* Pagination could be added here */}
           </div>
         </div>
@@ -122,5 +132,24 @@ const ProductListings = () => {
     </section>
   );
 };
+
+const ProductGridSkeleton = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {[...Array(6)].map((_, i) => (
+      <Card key={i}>
+        <Skeleton className="aspect-square w-full" />
+        <CardContent className="p-4 space-y-2">
+          <Skeleton className="h-6 w-3/4" />
+          <Skeleton className="h-4 w-1/2" />
+          <div className="flex justify-between items-center">
+            <Skeleton className="h-6 w-1/4" />
+            <Skeleton className="h-8 w-20" />
+          </div>
+        </CardContent>
+      </Card>
+    ))}
+  </div>
+);
+
 
 export default ProductListings;

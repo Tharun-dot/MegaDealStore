@@ -10,9 +10,30 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { Package } from 'lucide-react';
+import { Package, Power } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuth, useUser } from '@/firebase';
+import { useEffect } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+
+function LogoutButton() {
+    const auth = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await auth.signOut();
+        router.push('/login');
+    };
+
+    return (
+        <Button variant="ghost" onClick={handleLogout} className="w-full justify-start">
+            <Power className="mr-2 h-4 w-4" />
+            Logout
+        </Button>
+    );
+}
 
 export default function AdminLayout({
   children,
@@ -20,13 +41,32 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { user, isUserLoading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isUserLoading, router]);
+
+  if (isUserLoading || !user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+          <div className="p-8 bg-card rounded-lg shadow-lg flex flex-col items-center gap-4">
+              <Skeleton className="h-8 w-48" />
+              <Skeleton className="h-6 w-32" />
+          </div>
+      </div>
+    );
+  }
 
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar>
           <SidebarHeader>
-            <div className="flex items-center gap-2 p-2">
+            <div className="flex items-center justify-between p-2">
               <SidebarTrigger />
             </div>
           </SidebarHeader>
@@ -44,6 +84,9 @@ export default function AdminLayout({
                 </Link>
               </SidebarMenuItem>
             </SidebarMenu>
+             <div className="mt-auto p-2">
+                <LogoutButton />
+            </div>
           </SidebarContent>
         </Sidebar>
         <main className="flex-1 p-4 md:p-6">{children}</main>
