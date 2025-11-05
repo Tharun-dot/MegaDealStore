@@ -12,6 +12,7 @@ import { LayoutGrid, List } from 'lucide-react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, where, Query } from 'firebase/firestore';
 import { Skeleton } from '../ui/skeleton';
+import { Card, CardContent } from '../ui/card';
 
 const ProductListings = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
