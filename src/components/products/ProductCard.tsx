@@ -46,9 +46,9 @@ const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) => {
             <div className="flex items-center justify-between mt-4">
               <div className="text-xl font-bold text-primary">
                 {product.originalPrice && (
-                  <span className="text-base font-normal text-muted-foreground line-through mr-2">${product.originalPrice.toFixed(2)}</span>
+                  <span className="text-base font-normal text-muted-foreground line-through mr-2">₹{product.originalPrice.toFixed(2)}</span>
                 )}
-                ${product.price.toFixed(2)}
+                ₹{product.price.toFixed(2)}
               </div>
               <Button onClick={() => addToCart(product)}>
                 <ShoppingCart className="mr-2 h-4 w-4" />
@@ -93,9 +93,9 @@ const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) => {
         <div className="flex items-center justify-between mt-2">
           <div className="font-bold text-primary">
             {product.originalPrice && (
-              <span className="text-sm font-normal text-muted-foreground line-through mr-1">${product.originalPrice.toFixed(2)}</span>
+              <span className="text-sm font-normal text-muted-foreground line-through mr-1">₹{product.originalPrice.toFixed(2)}</span>
             )}
-            ${product.price.toFixed(2)}
+            ₹{product.price.toFixed(2)}
           </div>
           <Button size="sm" onClick={() => addToCart(product)}>
             <ShoppingCart className="mr-2 h-4 w-4" />

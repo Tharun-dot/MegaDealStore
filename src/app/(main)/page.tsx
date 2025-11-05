@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/data';
 import ProductListings from '@/components/products/ProductListings';
-import { ArrowRight, ShieldCheck, Truck, CreditCard } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Truck, CreditCard, LifeBuoy } from 'lucide-react';
 import ParallaxWrapper from '@/components/shared/ParallaxWrapper';
 import Link from 'next/link';
 
@@ -24,6 +24,11 @@ const features = [
     title: 'Easy Returns',
     description: 'Hassle-free returns on all products within 30 days of your purchase.',
   },
+  {
+    icon: <LifeBuoy className="h-8 w-8 text-primary" />,
+    title: '24/7 Support',
+    description: 'Our support team is available around the clock to assist you with any questions.',
+  }
 ];
 
 export default function Home() {
@@ -45,15 +50,15 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
           <h1 className="text-4xl md:text-6xl font-bold font-headline tracking-tight drop-shadow-lg fade-in-up">
-            Shop Smart. Save Big.
+            India’s #1 Budget Deals Store
           </h1>
           <p className="mt-4 max-w-2xl text-lg md:text-xl text-primary-foreground/90 drop-shadow-md fade-in-up [animation-delay:0.2s]">
-            Handpicked Dropshipping Products With Fast Delivery.
+            Premium products under ₹999 — COD Available | FREE delivery.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-8 fade-in-up [animation-delay:0.4s]">
             <Link href="/#products">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                Shop Now <ArrowRight className="ml-2 h-5 w-5" />
+                Start Shopping <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Link href="/track-order/GO-12345">
@@ -67,7 +72,7 @@ export default function Home() {
 
       <section id="features" className="py-16 sm:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             {features.map((feature, index) => (
               <div key={index} className="flex flex-col items-center fade-in-up" style={{ animationDelay: `${index * 0.2}s` }}>
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">

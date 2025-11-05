@@ -58,7 +58,7 @@ export default function AdminProductsPage() {
                   <Badge variant="outline">{product.category}</Badge>
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  ${product.price.toFixed(2)}
+                  ₹{product.price.toFixed(2)}
                 </TableCell>
                 <TableCell>{/* Actions like Edit/Delete will go here */}</TableCell>
               </TableRow>

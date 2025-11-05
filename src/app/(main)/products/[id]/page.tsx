@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 
   return {
-    title: `${product.title} – Tech Pulse`,
+    title: `${product.title} – MegaDealsStore`,
     description: product.description,
     openGraph: {
       title: product.title,
@@ -64,9 +64,9 @@ export default function ProductPage({ params }: ProductPageProps) {
             </div>
             <p className="text-2xl lg:text-3xl font-bold text-primary my-4">
               {product.originalPrice && (
-                <span className="text-xl font-normal text-muted-foreground line-through mr-3">${product.originalPrice.toFixed(2)}</span>
+                <span className="text-xl font-normal text-muted-foreground line-through mr-3">₹{product.originalPrice.toFixed(2)}</span>
               )}
-              ${product.price.toFixed(2)}
+              ₹{product.price.toFixed(2)}
             </p>
             <p className="text-muted-foreground leading-relaxed">{product.description}</p>
             

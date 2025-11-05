@@ -20,8 +20,8 @@ export const products: Product[] = [
       PlaceHolderImages.find((p) => p.id === 'product-1-alt-1')!,
       PlaceHolderImages.find((p) => p.id === 'product-1-alt-2')!,
     ],
-    originalPrice: 429.00,
-    price: 399.00,
+    originalPrice: 999.00,
+    price: 799.00,
     labels: ['On Sale'],
     reviewsCount: 480,
     rating: 4.8,
@@ -33,7 +33,7 @@ export const products: Product[] = [
     title: 'Nebula Noise-Cancelling Headphones',
     images: [PlaceHolderImages.find((p) => p.id === 'product-2')!],
     originalPrice: null,
-    price: 349.99,
+    price: 899.99,
     labels: ['New'],
     reviewsCount: 215,
     rating: 4.9,
@@ -45,7 +45,7 @@ export const products: Product[] = [
     title: 'Helios Smart Speaker',
     images: [PlaceHolderImages.find((p) => p.id === 'product-3')!],
     originalPrice: null,
-    price: 99.99,
+    price: 499.99,
     labels: [],
     reviewsCount: 732,
     rating: 4.7,
@@ -54,10 +54,10 @@ export const products: Product[] = [
   {
     id: 'product-4',
     category: 'drones',
-    title: 'Stratus 4K Camera Drone',
+    title: 'Mini Camera Drone',
     images: [PlaceHolderImages.find((p) => p.id === 'product-4')!],
-    originalPrice: 899.99,
-    price: 799.99,
+    originalPrice: 999.00,
+    price: 899.00,
     labels: ["Free Shipping"],
     reviewsCount: 121,
     rating: 4.9,
@@ -65,39 +65,39 @@ export const products: Product[] = [
   },
   {
     id: 'product-5',
-    category: 'laptops',
-    title: 'Zenith Ultrabook Pro',
+    category: 'accessories',
+    title: 'Zenith Laptop Stand',
     images: [PlaceHolderImages.find((p) => p.id === 'product-5')!],
     originalPrice: null,
-    price: 1499.99,
+    price: 599.99,
     labels: ["Best Seller"],
     reviewsCount: 305,
     rating: 4.9,
-    description: "Power and portability combined. This ultrabook features a 14-inch OLED display, the latest Intel Core i9 processor, and a feather-light chassis for productivity on the go."
+    description: "Ergonomic and portable laptop stand. Improve your posture and keep your laptop cool with this stylish and functional accessory."
   },
   {
     id: 'product-6',
     category: 'cameras',
-    title: 'Orion Mirrorless Camera M50',
+    title: 'Orion Vlogging Camera',
     images: [PlaceHolderImages.find((p) => p.id === 'product-6')!],
     originalPrice: null,
-    price: 749.99,
+    price: 949.99,
     labels: [],
     reviewsCount: 189,
     rating: 4.8,
-    description: "Unleash your creativity with this compact mirrorless camera. 24.1MP sensor, 4K video recording, and a versatile vari-angle touchscreen."
+    description: "Unleash your creativity with this compact vlogging camera. 24.1MP sensor, 4K video recording, and a versatile vari-angle touchscreen."
   },
   {
     id: 'product-7',
     category: 'vr',
-    title: 'Metaverse Quest 3 VR Headset',
+    title: 'VR Mobile Headset',
     images: [PlaceHolderImages.find((p) => p.id === 'product-7')!],
-    originalPrice: 549.99,
+    originalPrice: 649.99,
     price: 499.99,
     labels: ["On Sale"],
     reviewsCount: 543,
     rating: 4.8,
-    description: "Dive into immersive virtual and mixed reality experiences. Redesigned controllers, higher resolution displays, and a vast library of games and apps await."
+    description: "Dive into immersive virtual reality experiences with your smartphone. Redesigned for comfort and a huge library of games and apps await."
   },
 ];
 
@@ -141,9 +141,8 @@ export const categories = [
 
 export const priceFilters = [
   { label: 'All', min: 0, max: Infinity },
-  { label: '$0 - $99.99', min: 0, max: 99.99 },
-  { label: '$100 - $499.99', min: 100, max: 499.99 },
-  { label: 'Over $500', min: 500, max: Infinity },
+  { label: '₹0 - ₹499', min: 0, max: 499.99 },
+  { label: '₹500 - ₹999', min: 500, max: 999.99 },
 ];
 
 export const sortOptions = [

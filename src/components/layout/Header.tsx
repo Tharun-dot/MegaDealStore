@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Gem, Menu, ShoppingCart, X } from 'lucide-react';
+import { Package, Menu, ShoppingCart, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -97,7 +97,7 @@ const CartContent = () => {
                 />
                 <div className="flex-1">
                   <h3 className="font-semibold">{item.product.title}</h3>
-                  <p className="text-sm text-muted-foreground">${item.product.price.toFixed(2)}</p>
+                  <p className="text-sm text-muted-foreground">₹{item.product.price.toFixed(2)}</p>
                   <div className="flex items-center mt-2">
                     <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => updateQuantity(item.product.id, item.quantity - 1)}><span className="sr-only">Decrease quantity</span>-</Button>
                     <span className="w-8 text-center">{item.quantity}</span>
@@ -115,7 +115,7 @@ const CartContent = () => {
             <div className="w-full">
               <div className="flex justify-between font-bold text-lg mb-4">
                 <span>Subtotal</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span>₹{cartTotal.toFixed(2)}</span>
               </div>
               <Button className="w-full bg-primary hover:bg-primary/90" onClick={handleCheckout}>Checkout</Button>
             </div>
@@ -165,8 +165,8 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           {isMobile && <MobileNav />}
           <Link href="/" className="flex items-center gap-2 font-bold text-lg font-headline">
-            <Gem className="h-6 w-6 text-primary" />
-            <span>EliteDropship</span>
+            <Package className="h-6 w-6 text-primary" />
+            <span>MegaDealsStore</span>
           </Link>
         </div>
         

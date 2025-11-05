@@ -62,7 +62,7 @@ const OrderSummary = () => {
                 <div className="flex-1">
                   <h3 className="font-semibold">{item.product.title}</h3>
                   <p className="text-sm text-muted-foreground">
-                    ${item.product.price.toFixed(2)}
+                    ₹{item.product.price.toFixed(2)}
                   </p>
                   <div className="flex items-center mt-2">
                     <Button
@@ -89,7 +89,7 @@ const OrderSummary = () => {
                   </div>
                 </div>
                 <div className="text-right font-medium">
-                  ${(item.product.price * item.quantity).toFixed(2)}
+                  ₹{(item.product.price * item.quantity).toFixed(2)}
                 </div>
                 <Button
                   variant="ghost"
@@ -115,7 +115,7 @@ const OrderSummary = () => {
           <CardFooter className="flex flex-col gap-2">
             <div className="flex justify-between w-full">
               <span>Subtotal</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>₹{cartTotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between w-full">
               <span>Shipping</span>
@@ -124,7 +124,7 @@ const OrderSummary = () => {
             <Separator className="my-2" />
             <div className="flex justify-between w-full font-bold text-lg">
               <span>Total</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>₹{cartTotal.toFixed(2)}</span>
             </div>
           </CardFooter>
         </>
@@ -234,7 +234,7 @@ const CheckoutForm = ({ form, setFormValid }: { form: any, setFormValid: (isVali
                         <FormItem className="col-span-2">
                           <FormLabel>Address</FormLabel>
                           <FormControl>
-                            <Input placeholder="123 Gaming Lane" {...field} />
+                            <Input placeholder="123 Shopping Street" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -247,7 +247,7 @@ const CheckoutForm = ({ form, setFormValid }: { form: any, setFormValid: (isVali
                         <FormItem>
                           <FormLabel>City</FormLabel>
                           <FormControl>
-                            <Input placeholder="New York" {...field} />
+                            <Input placeholder="New Delhi" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -260,7 +260,7 @@ const CheckoutForm = ({ form, setFormValid }: { form: any, setFormValid: (isVali
                         <FormItem>
                           <FormLabel>ZIP Code</FormLabel>
                           <FormControl>
-                            <Input placeholder="10001" {...field} />
+                            <Input placeholder="110001" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -394,7 +394,7 @@ export default function CheckoutPage() {
 
   const handlePlaceOrder = () => {
     // In a real app, this would process the payment and create an order.
-    const orderId = `GO-${Date.now()}`;
+    const orderId = `MD-${Date.now()}`;
     
     toast({
       title: 'Order Placed!',

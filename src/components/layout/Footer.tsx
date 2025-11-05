@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Facebook, Instagram, Gem, Twitter } from "lucide-react";
+import { Facebook, Instagram, Package, Twitter } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -69,8 +69,8 @@ export const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col items-start">
               <Link href="/" className="flex items-center gap-2 font-bold text-xl font-headline mb-4">
-                <Gem className="h-7 w-7 text-primary" />
-                <span>EliteDropship</span>
+                <Package className="h-7 w-7 text-primary" />
+                <span>MegaDealsStore</span>
               </Link>
               <div className="flex space-x-4">
                 {socialIcons.map((social) => (
@@ -87,6 +87,10 @@ export const Footer = () => {
                 <h4 className="font-semibold">Shop</h4>
                 <ul className="space-y-1">
                   <li><Link href="/accessories" className="text-sm text-muted-foreground hover:text-primary">Accessories</Link></li>
+                  <li><Link href="/electronics" className="text-sm text-muted-foreground hover:text-primary">Electronics</Link></li>
+                  <li><Link href="/home-kitchen" className="text-sm text-muted-foreground hover:text-primary">Home & Kitchen</Link></li>
+                  <li><Link href="/fitness" className="text-sm text-muted-foreground hover:text-primary">Fitness</Link></li>
+                  <li><Link href="/gadgets" className="text-sm text-muted-foreground hover:text-primary">Gadgets</Link></li>
                 </ul>
               </div>
               <div className="space-y-2">
@@ -106,7 +110,7 @@ export const Footer = () => {
         </div>
 
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} EliteDropship. All Rights Reserved</p>
+          <p>© {new Date().getFullYear()} MegaDealsStore. All Rights Reserved</p>
         </div>
       </div>
     </footer>
