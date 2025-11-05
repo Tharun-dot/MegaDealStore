@@ -4,6 +4,7 @@ import { PlaceHolderImages } from '@/lib/data';
 import ProductListings from '@/components/products/ProductListings';
 import { ArrowRight, Gamepad2, ShieldCheck, Truck } from 'lucide-react';
 import ParallaxWrapper from '@/components/shared/ParallaxWrapper';
+import Link from 'next/link';
 
 const heroImage = PlaceHolderImages.find((img) => img.id === 'hero-1');
 
@@ -49,9 +50,11 @@ export default function Home() {
           <p className="mt-4 max-w-2xl text-lg md:text-xl text-primary-foreground/90 drop-shadow-md fade-in-up [animation-delay:0.2s]">
             Discover a curated collection of high-performance gaming gear to dominate the competition.
           </p>
-          <Button size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground fade-in-up [animation-delay:0.4s]">
-            Shop Now <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <Link href="/#products">
+            <Button size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground fade-in-up [animation-delay:0.4s]">
+              Shop Now <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </section>
 

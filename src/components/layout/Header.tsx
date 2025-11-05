@@ -21,6 +21,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { useRouter } from 'next/navigation';
 
 
 const navLinks = ["Home", "About Us", "Gift Registry", "Blog", "Contact Us"];
@@ -54,6 +55,11 @@ const CartSheet = () => {
 
 const CartContent = () => {
   const { cartItems, removeFromCart, updateQuantity, cartTotal, itemCount } = useCart();
+  const router = useRouter();
+
+  const handleCheckout = () => {
+    router.push('/checkout');
+  }
 
   return (
     <>
@@ -95,7 +101,7 @@ const CartContent = () => {
                 <span>Subtotal</span>
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
-              <Button className="w-full bg-primary hover:bg-primary/90">Checkout</Button>
+              <Button className="w-full bg-primary hover:bg-primary/90" onClick={handleCheckout}>Checkout</Button>
             </div>
           </SheetFooter>
         </div>

@@ -50,7 +50,7 @@ const ProductListings = () => {
   }, [products, priceFilter, sortOrder]);
 
   return (
-    <section className="bg-card py-12 sm:py-16">
+    <section id="products" className="bg-card py-12 sm:py-16">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Filters Sidebar */}
