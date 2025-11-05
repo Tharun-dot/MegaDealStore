@@ -24,12 +24,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { PlusCircle, Trash2, Sparkles } from 'lucide-react';
 import type { Product } from '@/app/lib/types';
 import { useFirestore } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { collection } from 'firebase/firestore';
+import { importProductFromUrl } from '@/ai/flows/product-importer-flow';
+import React from 'react';
+import { Separator } from '../ui/separator';
 
 const imageSchema = z.object({ 
   id: z.string().optional(),
@@ -63,6 +66,8 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
   const { toast } = useToast();
   const isEditing = !!initialData;
   const firestore = useFirestore();
+  const [importUrl, setImportUrl] = React.useState('');
+  const [isImporting, setIsImporting] = React.useState(false);
 
   const defaultValues = initialData
     ? {
@@ -88,10 +93,35 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
     defaultValues,
   });
   
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     control: form.control,
     name: 'images'
   });
+
+  const handleImport = async () => {
+    if (!importUrl) {
+      toast({ title: 'Please enter a URL.', variant: 'destructive' });
+      return;
+    }
+    setIsImporting(true);
+    toast({ title: 'Importing Product...', description: 'Please wait while we fetch the details.' });
+    try {
+      const result = await importProductFromUrl({ url: importUrl });
+      form.setValue('title', result.title);
+      form.setValue('description', result.description);
+      form.setValue('price', result.price);
+      
+      const imageFields = result.images.map(url => ({ imageUrl: url, description: '', imageHint: '' }));
+      replace(imageFields.slice(0, 4)); // Replace existing fields with new ones, max 4
+
+      toast({ title: 'Import Successful!', description: 'Product details have been populated.' });
+    } catch (error) {
+      console.error("Failed to import product:", error);
+      toast({ title: 'Import Failed', description: 'Could not fetch details from the URL.', variant: 'destructive' });
+    } finally {
+      setIsImporting(false);
+    }
+  };
 
   const onSubmit = (data: ProductFormValues) => {
     if (!firestore) {
@@ -119,6 +149,26 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
   const buttonText = isEditing ? 'Save Changes' : 'Add Product';
 
   return (
+        <>
+          {!isEditing && (
+             <div className="space-y-4 mb-8">
+                <h3 className="text-lg font-medium">Auto-Import from URL</h3>
+                <div className="flex items-center gap-2">
+                  <Input 
+                    placeholder="Paste affiliate product URL (e.g., Amazon, Flipkart)"
+                    value={importUrl}
+                    onChange={(e) => setImportUrl(e.target.value)}
+                    disabled={isImporting}
+                  />
+                  <Button type="button" onClick={handleImport} disabled={isImporting}>
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    {isImporting ? 'Fetching...' : 'Fetch Details'}
+                  </Button>
+                </div>
+                <Separator className="my-8" />
+             </div>
+          )}
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -142,7 +192,7 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
                 <FormItem>
                   <FormLabel>Product Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Describe the product..." {...field} />
+                    <Textarea placeholder="Describe the product..." {...field} rows={5}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -179,7 +229,7 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
                   <FormItem>
                     <FormLabel>Price (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 799.00" {...field} />
+                      <Input type="number" step="0.01" placeholder="e.g., 799.00" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -192,7 +242,7 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
                   <FormItem>
                     <FormLabel>Original Price (Optional)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 999.00" {...field} value={field.value ?? ''} />
+                      <Input type="number" step="0.01" placeholder="e.g., 999.00" {...field} value={field.value ?? ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -232,7 +282,8 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
                     Add Image
                 </Button>
                )}
-                <FormMessage>{form.formState.errors.images?.root?.message}</FormMessage>
+                <FormMessage>{form.formState.errors.images?.message}</FormMessage>
+                {form.formState.errors.images?.root && <FormMessage>{form.formState.errors.images.root.message}</FormMessage>}
             </div>
 
              <FormField
@@ -251,9 +302,10 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
 
             <div className="flex justify-end gap-4">
                <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
-               <Button type="submit">{buttonText}</Button>
+               <Button type="submit" disabled={isImporting}>{buttonText}</Button>
             </div>
           </form>
         </Form>
+      </>
   );
 }
