@@ -17,7 +17,7 @@ export default function AddProductPage() {
         <CardDescription>Fill out the form below to add a new product to your store.</CardDescription>
       </CardHeader>
       <CardContent>
-        <ProductForm />
+        <ProductForm initialData={null} />
       </CardContent>
     </Card>
   );
