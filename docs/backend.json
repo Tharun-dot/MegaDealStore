@@ -1,0 +1,955 @@
+{
+  "entities": {
+    "Site": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Site",
+      "type": "object",
+      "description": "Represents the overall configuration of the dropshipping store.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the site configuration."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the dropshipping store."
+        },
+        "domain": {
+          "type": "string",
+          "description": "The domain name of the dropshipping store."
+        },
+        "themeId": {
+          "type": "string",
+          "description": "Reference to Theme. (Relationship: Site 1:1 Theme)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "domain",
+        "themeId"
+      ]
+    },
+    "Theme": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Theme",
+      "type": "object",
+      "description": "Represents the visual theme configuration of the store.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the theme."
+        },
+        "layout": {
+          "type": "string",
+          "description": "The overall layout style of the store."
+        },
+        "headerId": {
+          "type": "string",
+          "description": "Reference to Header. (Relationship: Theme 1:1 Header)"
+        },
+        "footerId": {
+          "type": "string",
+          "description": "Reference to Footer. (Relationship: Theme 1:1 Footer)"
+        }
+      },
+      "required": [
+        "id",
+        "layout",
+        "headerId",
+        "footerId"
+      ]
+    },
+    "Header": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Header",
+      "type": "object",
+      "description": "Represents the header configuration of the theme.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the header."
+        },
+        "logoUrl": {
+          "type": "string",
+          "description": "The URL of the store's logo image."
+        },
+        "navigation": {
+          "type": "array",
+          "description": "An array of navigation links in the header.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "logoUrl",
+        "navigation"
+      ]
+    },
+    "Footer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Footer",
+      "type": "object",
+      "description": "Represents the footer configuration of the theme.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the footer."
+        },
+        "newsletterId": {
+          "type": "string",
+          "description": "Reference to Newsletter. (Relationship: Footer 1:1 Newsletter)"
+        },
+        "socialIcons": {
+          "type": "array",
+          "description": "An array of social media icon names to display in the footer.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "links": {
+          "type": "array",
+          "description": "An array of footer links.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "copyright": {
+          "type": "string",
+          "description": "The copyright text to display in the footer."
+        }
+      },
+      "required": [
+        "id",
+        "newsletterId",
+        "socialIcons",
+        "links",
+        "copyright"
+      ]
+    },
+    "Newsletter": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Newsletter",
+      "type": "object",
+      "description": "Represents the newsletter subscription configuration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the newsletter configuration."
+        },
+        "heading": {
+          "type": "string",
+          "description": "The heading text for the newsletter subscription form."
+        },
+        "placeholder": {
+          "type": "string",
+          "description": "The placeholder text for the email input field."
+        },
+        "successMessage": {
+          "type": "string",
+          "description": "The message to display upon successful subscription."
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "The error message to display if the email is invalid."
+        }
+      },
+      "required": [
+        "id",
+        "heading",
+        "placeholder",
+        "successMessage",
+        "errorMessage"
+      ]
+    },
+    "Category": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Category",
+      "type": "object",
+      "description": "Represents a product category in the store.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the category."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the category."
+        },
+        "breadcrumb": {
+          "type": "array",
+          "description": "An array of breadcrumb links for the category page.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "filterId": {
+          "type": "string",
+          "description": "Reference to Filter. (Relationship: Category 1:1 Filter)"
+        },
+        "sortOptions": {
+          "type": "array",
+          "description": "An array of available sorting options for the category.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "viewToggle": {
+          "type": "array",
+          "description": "An array of available view toggles for the category (e.g., grid or list).",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "breadcrumb",
+        "filterId",
+        "sortOptions",
+        "viewToggle"
+      ]
+    },
+    "Filter": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Filter",
+      "type": "object",
+      "description": "Represents the filters available for a category.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the filter."
+        },
+        "priceRanges": {
+          "type": "array",
+          "description": "An array of price range filter options.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "priceRanges"
+      ]
+    },
+    "PriceRange": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PriceRange",
+      "type": "object",
+      "description": "Represents a price range filter option.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the price range."
+        },
+        "filterId": {
+          "type": "string",
+          "description": "Reference to Filter. (Relationship: Filter 1:N PriceRange)"
+        },
+        "label": {
+          "type": "string",
+          "description": "The label for the price range (e.g., '$0 - $24.99')."
+        },
+        "min": {
+          "type": "number",
+          "description": "The minimum price for the range."
+        },
+        "max": {
+          "type": "number",
+          "description": "The maximum price for the range.  Null indicates no maximum."
+        }
+      },
+      "required": [
+        "id",
+        "filterId",
+        "label",
+        "min"
+      ]
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a product in the store.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the product."
+        },
+        "categoryId": {
+          "type": "string",
+          "description": "Reference to Category. (Relationship: Category 1:N Product)"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the product."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "The URL of the product's image."
+        },
+        "originalPrice": {
+          "type": "number",
+          "description": "The original price of the product (before any discounts)."
+        },
+        "price": {
+          "type": "number",
+          "description": "The current price of the product."
+        },
+        "labelIds": {
+          "type": "array",
+          "description": "References to Labels. (Relationship: Label N:N Product)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewsCount": {
+          "type": "number",
+          "description": "The number of reviews for the product."
+        }
+      },
+      "required": [
+        "id",
+        "categoryId",
+        "title",
+        "imageUrl",
+        "price",
+        "reviewsCount"
+      ]
+    },
+    "Label": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Label",
+      "type": "object",
+      "description": "Represents a label that can be applied to a product.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the label."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the label (e.g., 'Free Shipping')."
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "Dropshipping": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Dropshipping",
+      "type": "object",
+      "description": "Represents the dropshipping configuration for the store.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the dropshipping configuration."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates whether dropshipping is enabled for the store."
+        },
+        "supplierIntegrationId": {
+          "type": "string",
+          "description": "Reference to SupplierIntegration. (Relationship: Dropshipping 1:1 SupplierIntegration)"
+        },
+        "shippingId": {
+          "type": "string",
+          "description": "Reference to Shipping. (Relationship: Dropshipping 1:1 Shipping)"
+        },
+        "inventoryId": {
+          "type": "string",
+          "description": "Reference to Inventory. (Relationship: Dropshipping 1:1 Inventory)"
+        }
+      },
+      "required": [
+        "id",
+        "enabled",
+        "supplierIntegrationId",
+        "shippingId",
+        "inventoryId"
+      ]
+    },
+    "SupplierIntegration": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SupplierIntegration",
+      "type": "object",
+      "description": "Represents the supplier integration configuration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the supplier integration configuration."
+        },
+        "method": {
+          "type": "string",
+          "description": "The method used for supplier integration (e.g., 'API' or 'CSV')."
+        },
+        "supplierList": {
+          "type": "array",
+          "description": "An array of supplier names.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "method",
+        "supplierList"
+      ]
+    },
+    "Shipping": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Shipping",
+      "type": "object",
+      "description": "Represents the shipping configuration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the shipping configuration."
+        },
+        "freeShippingThreshold": {
+          "type": "number",
+          "description": "The minimum order value for free shipping."
+        },
+        "defaultShippingMessage": {
+          "type": "string",
+          "description": "The default shipping message to display."
+        }
+      },
+      "required": [
+        "id",
+        "freeShippingThreshold",
+        "defaultShippingMessage"
+      ]
+    },
+    "Inventory": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Inventory",
+      "type": "object",
+      "description": "Represents the inventory management configuration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the inventory configuration."
+        },
+        "autoSync": {
+          "type": "boolean",
+          "description": "Indicates whether automatic inventory synchronization is enabled."
+        },
+        "lowStockAlert": {
+          "type": "boolean",
+          "description": "Indicates whether low stock alerts are enabled."
+        }
+      },
+      "required": [
+        "id",
+        "autoSync",
+        "lowStockAlert"
+      ]
+    },
+    "UiBehaviour": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UiBehaviour",
+      "type": "object",
+      "description": "Represents the UI behavior configuration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UI behavior configuration."
+        },
+        "quickView": {
+          "type": "boolean",
+          "description": "Indicates whether quick view is enabled for products."
+        },
+        "addToCartButton": {
+          "type": "string",
+          "description": "The text to display on the 'Add to Cart' button."
+        },
+        "paginationId": {
+          "type": "string",
+          "description": "Reference to Pagination. (Relationship: UiBehaviour 1:1 Pagination)"
+        },
+        "mobileResponsive": {
+          "type": "boolean",
+          "description": "Indicates whether the site is mobile responsive."
+        }
+      },
+      "required": [
+        "id",
+        "quickView",
+        "addToCartButton",
+        "paginationId",
+        "mobileResponsive"
+      ]
+    },
+    "Pagination": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Pagination",
+      "type": "object",
+      "description": "Represents the pagination configuration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the pagination configuration."
+        },
+        "itemsPerPage": {
+          "type": "number",
+          "description": "The number of items to display per page."
+        },
+        "style": {
+          "type": "string",
+          "description": "The style of pagination (e.g., 'numbered')."
+        }
+      },
+      "required": [
+        "id",
+        "itemsPerPage",
+        "style"
+      ]
+    },
+    "Seo": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Seo",
+      "type": "object",
+      "description": "Represents the SEO configuration.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the SEO configuration."
+        },
+        "metaTitle": {
+          "type": "string",
+          "description": "The meta title for the page."
+        },
+        "metaDescription": {
+          "type": "string",
+          "description": "The meta description for the page."
+        },
+        "canonicalUrl": {
+          "type": "string",
+          "description": "The canonical URL for the page."
+        }
+      },
+      "required": [
+        "id",
+        "metaTitle",
+        "metaDescription",
+        "canonicalUrl"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/sites/{siteId}",
+        "definition": {
+          "entityName": "Site",
+          "schema": {
+            "$ref": "#/backend/entities/Site"
+          },
+          "description": "Stores site configurations. Includes denormalized 'ownerId' for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/themes/{themeId}",
+        "definition": {
+          "entityName": "Theme",
+          "schema": {
+            "$ref": "#/backend/entities/Theme"
+          },
+          "description": "Stores theme configurations for a specific site.  Includes denormalized 'siteId' and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "themeId",
+              "description": "The unique identifier for the theme."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/themes/{themeId}/headers/{headerId}",
+        "definition": {
+          "entityName": "Header",
+          "schema": {
+            "$ref": "#/backend/entities/Header"
+          },
+          "description": "Stores header configurations for a specific theme. Includes denormalized 'siteId', 'themeId', and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "themeId",
+              "description": "The unique identifier for the theme."
+            },
+            {
+              "name": "headerId",
+              "description": "The unique identifier for the header."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/themes/{themeId}/footers/{footerId}",
+        "definition": {
+          "entityName": "Footer",
+          "schema": {
+            "$ref": "#/backend/entities/Footer"
+          },
+          "description": "Stores footer configurations for a specific theme. Includes denormalized 'siteId', 'themeId', and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "themeId",
+              "description": "The unique identifier for the theme."
+            },
+            {
+              "name": "footerId",
+              "description": "The unique identifier for the footer."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/themes/{themeId}/footers/{footerId}/newsletters/{newsletterId}",
+        "definition": {
+          "entityName": "Newsletter",
+          "schema": {
+            "$ref": "#/backend/entities/Newsletter"
+          },
+          "description": "Stores newsletter configurations for a specific footer. Includes denormalized 'siteId', 'themeId', 'footerId' and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "themeId",
+              "description": "The unique identifier for the theme."
+            },
+            {
+              "name": "footerId",
+              "description": "The unique identifier for the footer."
+            },
+            {
+              "name": "newsletterId",
+              "description": "The unique identifier for the newsletter."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/categories/{categoryId}",
+        "definition": {
+          "entityName": "Category",
+          "schema": {
+            "$ref": "#/backend/entities/Category"
+          },
+          "description": "Stores product categories for a specific site. Includes denormalized 'siteId' and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "categoryId",
+              "description": "The unique identifier for the category."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/categories/{categoryId}/filters/{filterId}",
+        "definition": {
+          "entityName": "Filter",
+          "schema": {
+            "$ref": "#/backend/entities/Filter"
+          },
+          "description": "Stores filters for a specific category. Includes denormalized 'siteId', 'categoryId' and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "categoryId",
+              "description": "The unique identifier for the category."
+            },
+            {
+              "name": "filterId",
+              "description": "The unique identifier for the filter."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/categories/{categoryId}/filters/{filterId}/priceRanges/{priceRangeId}",
+        "definition": {
+          "entityName": "PriceRange",
+          "schema": {
+            "$ref": "#/backend/entities/PriceRange"
+          },
+          "description": "Stores price ranges for a specific filter. Includes denormalized 'siteId', 'categoryId', 'filterId', and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "categoryId",
+              "description": "The unique identifier for the category."
+            },
+            {
+              "name": "filterId",
+              "description": "The unique identifier for the filter."
+            },
+            {
+              "name": "priceRangeId",
+              "description": "The unique identifier for the price range."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/products/{productId}",
+        "definition": {
+          "entityName": "Product",
+          "schema": {
+            "$ref": "#/backend/entities/Product"
+          },
+          "description": "Stores product information for a specific site. Includes denormalized 'siteId', 'categoryId', and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "productId",
+              "description": "The unique identifier for the product."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/labels/{labelId}",
+        "definition": {
+          "entityName": "Label",
+          "schema": {
+            "$ref": "#/backend/entities/Label"
+          },
+          "description": "Stores labels for a specific site. Includes denormalized 'siteId' and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "labelId",
+              "description": "The unique identifier for the label."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/dropshipping/{dropshippingId}",
+        "definition": {
+          "entityName": "Dropshipping",
+          "schema": {
+            "$ref": "#/backend/entities/Dropshipping"
+          },
+          "description": "Stores dropshipping configurations for a specific site. Includes denormalized 'siteId' and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "dropshippingId",
+              "description": "The unique identifier for the dropshipping configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/dropshipping/{dropshippingId}/supplierIntegrations/{supplierIntegrationId}",
+        "definition": {
+          "entityName": "SupplierIntegration",
+          "schema": {
+            "$ref": "#/backend/entities/SupplierIntegration"
+          },
+          "description": "Stores supplier integrations for a specific dropshipping setup. Includes denormalized 'siteId', 'dropshippingId', and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "dropshippingId",
+              "description": "The unique identifier for the dropshipping configuration."
+            },
+            {
+              "name": "supplierIntegrationId",
+              "description": "The unique identifier for the supplier integration configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/dropshipping/{dropshippingId}/shippings/{shippingId}",
+        "definition": {
+          "entityName": "Shipping",
+          "schema": {
+            "$ref": "#/backend/entities/Shipping"
+          },
+          "description": "Stores shipping configurations. Includes denormalized 'siteId', 'dropshippingId', and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "dropshippingId",
+              "description": "The unique identifier for the dropshipping configuration."
+            },
+            {
+              "name": "shippingId",
+              "description": "The unique identifier for the shipping configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/dropshipping/{dropshippingId}/inventories/{inventoryId}",
+        "definition": {
+          "entityName": "Inventory",
+          "schema": {
+            "$ref": "#/backend/entities/Inventory"
+          },
+          "description": "Stores inventory configurations. Includes denormalized 'siteId', 'dropshippingId', and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "dropshippingId",
+              "description": "The unique identifier for the dropshipping configuration."
+            },
+            {
+              "name": "inventoryId",
+              "description": "The unique identifier for the inventory configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/uiBehaviours/{uiBehaviourId}",
+        "definition": {
+          "entityName": "UiBehaviour",
+          "schema": {
+            "$ref": "#/backend/entities/UiBehaviour"
+          },
+          "description": "Stores UI behavior configurations. Includes denormalized 'siteId' and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "uiBehaviourId",
+              "description": "The unique identifier for the UI behavior configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/uiBehaviours/{uiBehaviourId}/paginations/{paginationId}",
+        "definition": {
+          "entityName": "Pagination",
+          "schema": {
+            "$ref": "#/backend/entities/Pagination"
+          },
+          "description": "Stores pagination configurations. Includes denormalized 'siteId', 'uiBehaviourId', and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "uiBehaviourId",
+              "description": "The unique identifier for the UI behavior configuration."
+            },
+            {
+              "name": "paginationId",
+              "description": "The unique identifier for the pagination configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/sites/{siteId}/seos/{seoId}",
+        "definition": {
+          "entityName": "Seo",
+          "schema": {
+            "$ref": "#/backend/entities/Seo"
+          },
+          "description": "Stores SEO configurations. Includes denormalized 'siteId' and 'ownerId' from the parent 'site' document for authorization independence.",
+          "params": [
+            {
+              "name": "siteId",
+              "description": "The unique identifier for the site."
+            },
+            {
+              "name": "seoId",
+              "description": "The unique identifier for the SEO configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "role_admin",
+          "schema": {
+            "$ref": "#/backend/entities/RoleAdmin"
+          },
+          "description": "Collection used to store admin role.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to optimize for authorization independence, clarity, and scalability.  Each top-level collection represents a major entity in the application. The structure emphasizes path-based ownership for user-specific data and membership maps for collaborative data, avoiding `get()` calls in security rules.\n\nAuthorization Independence (CRITICAL): Denormalization is applied to critical authorization data. For example, if access to a Site's configurations (theme, header, footer, etc.) depends on Site ownership, the relevant owner information is copied into the subcollections. This eliminates the need for security rules to fetch parent document data, simplifying rules and improving performance.\n\nQAPs (Rules are not Filters): Segregation of data based on access control needs is implemented (Strategy B).  For example, administrative configurations might be stored separately from public-facing data.\n\nAccess Modeling: Path-based ownership is used for entities directly related to a user (although no user entity was given). Membership maps will be used if collaborative entities are added. Global roles are implemented using dedicated collections for role existence checks.\n\nThe database structure supports the core features requested, like product catalog display, filtering and sorting, shopping cart functionality, dropshipping, SEO optimization, and AI product suggestion tool by properly storing the data in an organized manner. Moreover, the UI elements as color, layout, animations are not reflected into the database structure since there are UI configurations."
+  }
+}
