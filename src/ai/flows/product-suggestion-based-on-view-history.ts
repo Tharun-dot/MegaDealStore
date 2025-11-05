@@ -9,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { getAllProductsTool } from '../tools/product-retrieval';
 
 const ProductSchema = z.object({
   id: z.string(),
@@ -23,7 +24,7 @@ const ProductSchema = z.object({
 export type Product = z.infer<typeof ProductSchema>;
 
 const ProductSuggestionInputSchema = z.object({
-  viewingHistory: z.array(ProductSchema).describe('The user viewing history as an array of products.'),
+  viewingHistory: z.array(ProductSchema).describe("The user's viewing history as an array of products."),
   currentProduct: ProductSchema.describe('The product the user is currently viewing.'),
   numberOfSuggestions: z.number().default(3).describe('The number of product suggestions to return. Defaults to 3.'),
 });
@@ -40,10 +41,17 @@ const productSuggestionPrompt = ai.definePrompt({
   name: 'productSuggestionPrompt',
   input: {schema: ProductSuggestionInputSchema},
   output: {schema: ProductSuggestionOutputSchema},
+  tools: [getAllProductsTool],
   prompt: `You are an expert product recommendation engine for an online store.
 
-  Given the user's viewing history and the product they are currently viewing, recommend {{numberOfSuggestions}} similar products that the user might be interested in.
-  Return only the product, do not add any conversational text.
+  Your goal is to recommend {{numberOfSuggestions}} similar or complementary products to the user.
+
+  Base your recommendations on the user's viewing history and the product they are currently viewing.
+  Use the provided tool to get a list of all available products that you can recommend from.
+
+  Do not recommend products that are already in the user's viewing history or the current product they are viewing.
+
+  Return only an array of the recommended products in the specified format. Do not add any conversational text.
 
   User Viewing History:
   {{#each viewingHistory}}
@@ -52,8 +60,7 @@ const productSuggestionPrompt = ai.definePrompt({
 
   Current Product:
   - Title: {{currentProduct.title}}, Category: {{currentProduct.category}}, Price: {{currentProduct.price}}
-
-  Products:`, // TODO: Add a list of available products to choose from. This will require fetching products from a database or other source.
+  `,
 });
 
 const productSuggestionFlow = ai.defineFlow(

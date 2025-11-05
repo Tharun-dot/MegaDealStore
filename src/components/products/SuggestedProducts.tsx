@@ -23,10 +23,12 @@ const mapAppProductToAIProduct = (product: AppProduct): AIProduct => {
 };
 
 const mapAIProductToAppProduct = (aiProduct: AIProduct, allProducts: AppProduct[]): AppProduct | undefined => {
+  // First, try to find the full product details from the products we fetched from the DB
   const fullProduct = allProducts.find(p => p.id === aiProduct.id);
   if (fullProduct) return fullProduct;
 
-  // Fallback if not found in our main data (e.g., if AI suggests a new product)
+  // Fallback: If the AI returns a product that wasn't in our initial fetch (unlikely but possible),
+  // we can construct a partial AppProduct. This ensures we can still display something.
   return {
     id: aiProduct.id,
     category: aiProduct.category,
@@ -37,7 +39,7 @@ const mapAIProductToAppProduct = (aiProduct: AIProduct, allProducts: AppProduct[
     labels: aiProduct.labels,
     reviewsCount: aiProduct.reviewsCount,
     rating: 0, // default value
-    description: '', // default value
+    description: `Similar to ${aiProduct.title}`, // default value
   }
 };
 
@@ -51,11 +53,11 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
 
   const firestore = useFirestore();
 
-  // Fetch a few products to use as potential suggestions.
+  // Fetch all products to have their full data available for mapping AI response to AppProduct
   const productsQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    return query(collection(firestore, 'products'), where('id', '!=', currentProduct.id), limit(3));
-  }, [firestore, currentProduct.id]);
+    return query(collection(firestore, 'products'));
+  }, [firestore]);
   
   const { data: allProducts, isLoading: productsLoading } = useCollection<AppProduct>(productsQuery);
 
@@ -100,32 +102,18 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
       };
 
       try {
-        // The AI needs a list of products to choose from. Since we can't pass the whole DB,
-        // we will use the fetched `allProducts` as the pool for suggestions for this demo.
-        // A real implementation might use a more sophisticated search/retrieval tool for the AI.
-        const result = getMockSuggestions(currentProduct.id);
+        const result = await getProductSuggestions(input);
         const suggestedProducts = result.map(aiProd => mapAIProductToAppProduct(aiProd, allProducts)).filter((p): p is AppProduct => !!p);
         setSuggestions(suggestedProducts);
       } catch (error) {
         console.error("Error fetching product suggestions:", error);
-        // Fallback to mock suggestions on error
-        const mockResult = getMockSuggestions(currentProduct.id);
-        const suggestedProducts = mockResult.map(aiProd => mapAIProductToAppProduct(aiProd, allProducts)).filter((p): p is AppProduct => !!p);
-        setSuggestions(suggestedProducts);
+        // As a fallback, just show some other products from the DB
+        setSuggestions(allProducts.filter(p => p.id !== currentProduct.id).slice(0, 3));
       } finally {
         setLoading(false);
       }
     };
     
-    // Mock suggestions because the AI flow needs a list of all available products.
-    const getMockSuggestions = (currentId: string): AIProduct[] => {
-      if (!allProducts) return [];
-      return allProducts
-        .filter(p => p.id !== currentId)
-        .slice(0, 3)
-        .map(mapAppProductToAIProduct);
-    };
-
     if (allProducts) {
       fetchSuggestions();
     }
