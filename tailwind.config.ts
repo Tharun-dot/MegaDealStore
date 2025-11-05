@@ -17,9 +17,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['"Exo 2"', 'sans-serif'],
+        body: ['"Oswald"', 'sans-serif'],
         headline: ['"Orbitron"', 'sans-serif'],
         code: ['monospace'],
+        'exo-2': ['"Exo 2"', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
