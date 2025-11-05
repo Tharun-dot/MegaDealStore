@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, CheckCircle, Truck, Shield } from "lucide-react";
 import StarRating from "@/components/products/StarRating";
 import AddToCartButton from "@/components/products/AddToCartButton";
-import SuggestedProducts from "@/components/products/SuggestedProducts";
 import type { Metadata } from "next";
 import ProductImageGallery from "@/components/products/ProductImageGallery";
 import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
@@ -71,7 +70,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           </div>
         </div>
       </div>
-      <SuggestedProducts currentProduct={product} />
     </div>
   );
 }

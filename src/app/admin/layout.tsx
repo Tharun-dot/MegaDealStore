@@ -17,6 +17,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, useUser } from '@/firebase';
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 function LogoutButton() {
     const auth = useAuth();
@@ -37,6 +38,25 @@ function LogoutButton() {
     );
 }
 
+const AdminSkeleton = () => (
+  <div className="flex min-h-screen">
+    <div className="hidden md:block">
+      <div className="w-64 p-2">
+        <div className="p-2">
+          <Skeleton className="h-7 w-7" />
+        </div>
+        <div className="flex flex-col gap-1 p-2">
+          <Skeleton className="h-8 w-full" />
+        </div>
+      </div>
+    </div>
+    <main className="flex-1 p-4 md:p-6">
+      <Skeleton className="h-32 w-full" />
+    </main>
+  </div>
+);
+
+
 export default function AdminLayout({
   children,
 }: {
@@ -54,11 +74,9 @@ export default function AdminLayout({
     }
   }, [user, isUserLoading, router]);
 
-  // Don't render the full layout (including children) if we are still loading and don't have a user.
-  // This prevents a flash of the admin UI before the redirect.
-  // However, we no longer show a skeleton, which speeds up perceived load time.
-  if (isUserLoading && !user) {
-    return null;
+  // Show a skeleton loader while auth state is being determined.
+  if (isUserLoading || !user) {
+    return <AdminSkeleton />;
   }
 
   return (
