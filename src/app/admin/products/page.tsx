@@ -1,3 +1,4 @@
+
 import { products } from '@/lib/data';
 import {
   Card,
@@ -17,7 +18,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { PlusCircle } from 'lucide-react';
+import { Edit, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminProductsPage() {
@@ -71,7 +72,20 @@ export default function AdminProductsPage() {
                 <TableCell className="hidden md:table-cell">
                   ₹{product.price.toFixed(2)}
                 </TableCell>
-                <TableCell>{/* Actions like Edit/Delete will go here */}</TableCell>
+                <TableCell>
+                  <div className="flex gap-2 justify-end">
+                    <Link href={`/admin/products/edit/${product.id}`} passHref>
+                        <Button variant="outline" size="icon">
+                            <Edit className="h-4 w-4" />
+                            <span className="sr-only">Edit</span>
+                        </Button>
+                    </Link>
+                    <Button variant="destructive" size="icon">
+                        <Trash2 className="h-4 w-4" />
+                        <span className="sr-only">Delete</span>
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
