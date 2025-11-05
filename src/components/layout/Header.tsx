@@ -46,6 +46,9 @@ const CartSheet = () => {
         </Button>
       </SheetTrigger>
       <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Your Cart</SheetTitle>
+        </SheetHeader>
         <CartContent />
       </SheetContent>
     </Sheet>
@@ -79,9 +82,6 @@ const CartContent = () => {
 
   return (
     <>
-      <SheetHeader>
-        <SheetTitle>Your Cart ({itemCount})</SheetTitle>
-      </SheetHeader>
       <Separator className="my-4" />
       {cartItems.length > 0 ? (
         <div className="flex flex-col h-full">
@@ -211,7 +211,8 @@ const CartPopover = () => {
               <span className="sr-only">Open cart</span>
             </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-96 mr-4 p-0">
+        <PopoverContent className="w-96 mr-4 p-4">
+          <div className="font-semibold text-lg">Your Cart</div>
           <CartContent />
         </PopoverContent>
       </Popover>
