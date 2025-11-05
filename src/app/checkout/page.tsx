@@ -35,6 +35,7 @@ import {
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const OrderSummary = () => {
   const { cartItems, cartTotal, updateQuantity, removeFromCart } = useCart();
@@ -373,8 +374,9 @@ const CheckoutForm = ({ form, setFormValid }: { form: any, setFormValid: (isVali
 
 export default function CheckoutPage() {
   const { toast } = useToast();
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
   const [isFormValid, setFormValid] = React.useState(false);
+  const router = useRouter();
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
@@ -392,11 +394,15 @@ export default function CheckoutPage() {
 
   const handlePlaceOrder = () => {
     // In a real app, this would process the payment and create an order.
+    const orderId = `GO-${Date.now()}`;
+    
     toast({
       title: 'Order Placed!',
-      description: 'Thank you for your purchase. A confirmation has been sent to your email.',
+      description: `Thank you for your purchase. Your Order ID is ${orderId}.`,
     });
-    // Maybe clear cart here or redirect to a thank you page
+    
+    clearCart();
+    router.push(`/track-order/${orderId}`);
   };
 
   return (

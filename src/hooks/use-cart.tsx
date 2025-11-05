@@ -90,6 +90,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const clearCart = () => {
     setCartItems([]);
+    if (isClient) {
+      localStorage.removeItem('cartItems');
+    }
   };
 
   const cartTotal = cartItems.reduce(
