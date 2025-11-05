@@ -172,7 +172,13 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
+    <header 
+      className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60"
+      style={{
+        backgroundImage: `url("https://storage.googleapis.com/aai-web-template-files-prod/12961a85-0567-4228-80e9-74d1a29f8f2b")`,
+        backgroundSize: '300px 300px'
+      }}
+    >
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           {isMobile && <MobileNav />}
