@@ -57,6 +57,24 @@
       },
       "required": ["id", "email"]
     },
+    "Admin": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Admin",
+      "type": "object",
+      "description": "Represents an administrator user role.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The user's UID."
+        },
+        "role": {
+          "type": "string",
+          "const": "admin",
+          "description": "The role of the user."
+        }
+      },
+      "required": ["id", "role"]
+    },
     "Theme": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Theme",
@@ -610,6 +628,22 @@
               "description": "The unique identifier for the user."
             }
           ]
+        }
+      },
+      {
+        "path": "/admins/{userId}",
+        "definition": {
+            "entityName": "Admin",
+            "schema": {
+                "$ref": "#/backend/entities/Admin"
+            },
+            "description": "Stores a list of user UIDs that have administrative privileges. Document ID is the user UID.",
+            "params": [
+                {
+                    "name": "userId",
+                    "description": "The unique identifier for the user (Auth UID)."
+                }
+            ]
         }
       },
       {

@@ -23,12 +23,13 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/firebase';
+import { useAuth, useFirestore } from '@/firebase';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { doc, setDoc } from 'firebase/firestore';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -50,6 +51,7 @@ export default function AdminLoginPage() {
   const { toast } = useToast();
   const router = useRouter();
   const auth = useAuth();
+  const firestore = useFirestore();
 
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -80,11 +82,19 @@ export default function AdminLoginPage() {
   };
   
   const onSignupSubmit = async (values: z.infer<typeof signupSchema>) => {
-    if (!auth) return;
+    if (!auth || !firestore) return;
     setLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
-      toast({ title: 'Signup Successful' });
+      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+      const user = userCredential.user;
+
+      // Add the new user to the 'admins' collection to grant admin role.
+      await setDoc(doc(firestore, "admins", user.uid), {
+        id: user.uid,
+        role: 'admin',
+      });
+
+      toast({ title: 'Admin Account Created' });
       router.push('/admin/products');
     } catch (error: any) {
        toast({
