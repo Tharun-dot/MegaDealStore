@@ -1,7 +1,16 @@
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+
 export default function SiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="bg-background">{children}</div>;
+  return (
+    <>
+      <Header />
+      <div className="bg-background">{children}</div>
+      <Footer />
+    </>
+  );
 }
