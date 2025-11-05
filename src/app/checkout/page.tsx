@@ -14,7 +14,7 @@ import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Image from 'next/image';
-import { X } from 'lucide-react';
+import { X, QrCode } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Accordion,
@@ -22,6 +22,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import React from 'react';
 
 const OrderSummary = () => {
   const { cartItems, cartTotal, updateQuantity, removeFromCart } = useCart();
@@ -119,67 +132,240 @@ const OrderSummary = () => {
   );
 };
 
-const CheckoutForm = () => {
+const checkoutSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address.' }),
+  firstName: z.string().min(1, { message: 'First name is required.' }),
+  lastName: z.string().min(1, { message: 'Last name is required.' }),
+  address: z.string().min(1, { message: 'Address is required.' }),
+  city: z.string().min(1, { message: 'City is required.' }),
+  zip: z.string().min(5, { message: 'ZIP code must be at least 5 digits.' }),
+  paymentMethod: z.enum(['card', 'upi']),
+  cardNumber: z.string().optional(),
+  expiryDate: z.string().optional(),
+  cvc: z.string().optional(),
+  upiId: z.string().optional(),
+}).refine(data => {
+    if (data.paymentMethod === 'card') {
+        return data.cardNumber && data.cardNumber.length >= 16 && data.expiryDate && data.expiryDate.match(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/) && data.cvc && data.cvc.length === 3;
+    }
+    return true;
+}, {
+    message: "Please enter valid card details.",
+    path: ["cardNumber"],
+}).refine(data => {
+    if (data.paymentMethod === 'upi') {
+        return data.upiId && data.upiId.includes('@');
+    }
+    return true;
+}, {
+    message: "Please enter a valid UPI ID.",
+    path: ["upiId"],
+});
+
+type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+
+const CheckoutForm = ({ form, setFormValid }: { form: any, setFormValid: (isValid: boolean) => void }) => {
+  const paymentMethod = form.watch('paymentMethod');
+  
+  React.useEffect(() => {
+    const subscription = form.watch(() => {
+      setFormValid(form.formState.isValid);
+    });
+    return () => subscription.unsubscribe();
+  }, [form, setFormValid]);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Customer Information</CardTitle>
       </CardHeader>
       <CardContent>
-        <Accordion type="single" collapsible className="w-full" defaultValue="shipping">
-          <AccordionItem value="shipping">
-            <AccordionTrigger className="text-lg font-semibold">Shipping Address</AccordionTrigger>
-            <AccordionContent>
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="col-span-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" placeholder="you@example.com" type="email" />
-                </div>
-                <div>
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" placeholder="John" />
-                </div>
-                <div>
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" placeholder="Doe" />
-                </div>
-                <div className="col-span-2">
-                  <Label htmlFor="address">Address</Label>
-                  <Input id="address" placeholder="123 Gaming Lane" />
-                </div>
-                <div>
-                  <Label htmlFor="city">City</Label>
-                  <Input id="city" placeholder="New York" />
-                </div>
-                <div>
-                  <Label htmlFor="zip">ZIP Code</Label>
-                  <Input id="zip" placeholder="10001" />
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="payment">
-            <AccordionTrigger className="text-lg font-semibold">Payment Details</AccordionTrigger>
-            <AccordionContent>
-                <div className="space-y-4 mt-4">
-                  <div>
-                    <Label htmlFor="card-number">Card Number</Label>
-                    <Input id="card-number" placeholder="**** **** **** 1234" />
+        <Form {...form}>
+          <form>
+            <Accordion type="single" collapsible className="w-full" defaultValue="shipping">
+              <AccordionItem value="shipping">
+                <AccordionTrigger className="text-lg font-semibold">Shipping Address</AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-2 gap-4 mt-4">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem className="col-span-2">
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="you@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>First Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="John" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Last Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Doe" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="address"
+                      render={({ field }) => (
+                        <FormItem className="col-span-2">
+                          <FormLabel>Address</FormLabel>
+                          <FormControl>
+                            <Input placeholder="123 Gaming Lane" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="city"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>City</FormLabel>
+                          <FormControl>
+                            <Input placeholder="New York" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="zip"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>ZIP Code</FormLabel>
+                          <FormControl>
+                            <Input placeholder="10001" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="col-span-2">
-                      <Label htmlFor="expiry-date">Expiry Date</Label>
-                      <Input id="expiry-date" placeholder="MM/YY" />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="payment">
+                <AccordionTrigger className="text-lg font-semibold">Payment Details</AccordionTrigger>
+                <AccordionContent>
+                  <FormField
+                    control={form.control}
+                    name="paymentMethod"
+                    render={({ field }) => (
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex gap-4 mt-4"
+                      >
+                        <FormItem className="flex items-center space-x-2">
+                          <FormControl>
+                            <RadioGroupItem value="card" id="card" />
+                          </FormControl>
+                          <FormLabel htmlFor="card">Credit Card</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-2">
+                          <FormControl>
+                            <RadioGroupItem value="upi" id="upi" />
+                          </FormControl>
+                          <FormLabel htmlFor="upi">UPI</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    )}
+                  />
+                  {paymentMethod === 'card' && (
+                    <div className="space-y-4 mt-4">
+                      <FormField
+                        control={form.control}
+                        name="cardNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Card Number</FormLabel>
+                            <FormControl>
+                              <Input placeholder="**** **** **** 1234" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="grid grid-cols-3 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="expiryDate"
+                          render={({ field }) => (
+                            <FormItem className="col-span-2">
+                              <FormLabel>Expiry Date</FormLabel>
+                              <FormControl>
+                                <Input placeholder="MM/YY" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="cvc"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>CVC</FormLabel>
+                              <FormControl>
+                                <Input placeholder="123" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="cvc">CVC</Label>
-                      <Input id="cvc" placeholder="123" />
+                  )}
+                  {paymentMethod === 'upi' && (
+                    <div className="space-y-4 mt-4">
+                      <FormField
+                        control={form.control}
+                        name="upiId"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>UPI ID</FormLabel>
+                            <FormControl>
+                              <Input placeholder="yourname@bank" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-lg">
+                        <QrCode className="w-24 h-24 text-muted-foreground" />
+                        <p className="mt-2 text-sm text-muted-foreground">Scan QR to pay</p>
+                      </div>
                     </div>
-                  </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );
@@ -188,6 +374,21 @@ const CheckoutForm = () => {
 export default function CheckoutPage() {
   const { toast } = useToast();
   const { cartItems } = useCart();
+  const [isFormValid, setFormValid] = React.useState(false);
+
+  const form = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutSchema),
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      city: '',
+      zip: '',
+      paymentMethod: 'card',
+    },
+  });
 
   const handlePlaceOrder = () => {
     // In a real app, this would process the payment and create an order.
@@ -211,15 +412,15 @@ export default function CheckoutPage() {
 
       <div className="grid md:grid-cols-2 gap-12">
         <div className="space-y-8">
-          <CheckoutForm />
+          <CheckoutForm form={form} setFormValid={setFormValid} />
         </div>
         <div className="space-y-8">
           <OrderSummary />
           <Button
             size="lg"
             className="w-full"
-            onClick={handlePlaceOrder}
-            disabled={cartItems.length === 0}
+            onClick={form.handleSubmit(handlePlaceOrder)}
+            disabled={cartItems.length === 0 || !isFormValid}
           >
             Place Order
           </Button>
