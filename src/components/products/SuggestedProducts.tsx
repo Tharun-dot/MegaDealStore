@@ -5,9 +5,8 @@ import type { Product as AppProduct } from "@/app/lib/types";
 import type { ProductSuggestionOutput, ProductSuggestionInput, Product as AIProduct } from "@/ai/flows/product-suggestion-based-on-view-history";
 import { getProductSuggestions } from "@/ai/flows/product-suggestion-based-on-view-history";
 import ProductCard from "./ProductCard";
-import { PlaceHolderImages } from "@/lib/data";
 import { Skeleton } from "../ui/skeleton";
-import { useCollection, useFirestore } from "@/firebase";
+import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import { collection, limit, query, where } from "firebase/firestore";
 
 const mapAppProductToAIProduct = (product: AppProduct): AIProduct => {
@@ -15,7 +14,7 @@ const mapAppProductToAIProduct = (product: AppProduct): AIProduct => {
     id: product.id,
     category: product.category,
     title: product.title,
-    imageUrl: product.images[0].imageUrl,
+    imageUrl: product.images[0]?.imageUrl || '',
     originalPrice: product.originalPrice,
     price: product.price,
     labels: product.labels,
@@ -24,18 +23,15 @@ const mapAppProductToAIProduct = (product: AppProduct): AIProduct => {
 };
 
 const mapAIProductToAppProduct = (aiProduct: AIProduct, allProducts: AppProduct[]): AppProduct | undefined => {
-  // In a real app, you'd fetch product details from your DB using the ID.
-  // Here, we'll find it in our static data.
   const fullProduct = allProducts.find(p => p.id === aiProduct.id);
   if (fullProduct) return fullProduct;
 
   // Fallback if not found in our main data (e.g., if AI suggests a new product)
-  const image = PlaceHolderImages.find(img => img.imageUrl === aiProduct.imageUrl) ?? PlaceHolderImages[0];
   return {
     id: aiProduct.id,
     category: aiProduct.category,
     title: aiProduct.title,
-    images: [image],
+    images: aiProduct.imageUrl ? [{ id: aiProduct.id, description: '', imageUrl: aiProduct.imageUrl, imageHint: '' }] : [],
     originalPrice: aiProduct.originalPrice,
     price: aiProduct.price,
     labels: aiProduct.labels,
@@ -54,10 +50,14 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
   const [loading, setLoading] = useState(true);
 
   const firestore = useFirestore();
-  const productsRef = collection(firestore, 'products');
-  // Fetch 4 products to have a fallback if one is the current product
-  const q = query(productsRef, where('id', '!=', currentProduct.id), limit(3));
-  const { data: allProducts, isLoading: productsLoading } = useCollection<AppProduct>(q);
+
+  // Fetch a few products to use as potential suggestions.
+  const productsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'products'), where('id', '!=', currentProduct.id), limit(3));
+  }, [firestore, currentProduct.id]);
+  
+  const { data: allProducts, isLoading: productsLoading } = useCollection<AppProduct>(productsQuery);
 
   useEffect(() => {
     // This should only run on the client
@@ -72,11 +72,9 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
         console.error("Failed to parse viewing history", e);
       }
 
-      // Add current product to history, avoiding duplicates
       history = history.filter(p => p.id !== currentProduct.id);
       history.unshift(mapAppProductToAIProduct(currentProduct));
 
-      // Limit history length
       if (history.length > MAX_HISTORY_LENGTH) {
         history = history.slice(0, MAX_HISTORY_LENGTH);
       }
@@ -97,20 +95,20 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
       const viewingHistory = updateViewingHistory();
       const input: ProductSuggestionInput = {
         currentProduct: mapAppProductToAIProduct(currentProduct),
-        viewingHistory: viewingHistory.filter(p => p.id !== currentProduct.id), // Exclude current from history
+        viewingHistory: viewingHistory.filter(p => p.id !== currentProduct.id),
         numberOfSuggestions: 3,
       };
 
       try {
-        // In a real app, you would provide the full product list for the AI to choose from.
-        // For this demo, we mock the AI response since we can't provide the full list.
-        // const result = await getProductSuggestions(input);
+        // The AI needs a list of products to choose from. Since we can't pass the whole DB,
+        // we will use the fetched `allProducts` as the pool for suggestions for this demo.
+        // A real implementation might use a more sophisticated search/retrieval tool for the AI.
         const result = getMockSuggestions(currentProduct.id);
         const suggestedProducts = result.map(aiProd => mapAIProductToAppProduct(aiProd, allProducts)).filter((p): p is AppProduct => !!p);
         setSuggestions(suggestedProducts);
       } catch (error) {
         console.error("Error fetching product suggestions:", error);
-        // Fallback to mock suggestions
+        // Fallback to mock suggestions on error
         const mockResult = getMockSuggestions(currentProduct.id);
         const suggestedProducts = mockResult.map(aiProd => mapAIProductToAppProduct(aiProd, allProducts)).filter((p): p is AppProduct => !!p);
         setSuggestions(suggestedProducts);
@@ -119,8 +117,7 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
       }
     };
     
-    // Mock suggestions because the AI flow needs a list of all available products to choose from,
-    // which we can't provide in this context.
+    // Mock suggestions because the AI flow needs a list of all available products.
     const getMockSuggestions = (currentId: string): AIProduct[] => {
       if (!allProducts) return [];
       return allProducts
@@ -128,7 +125,6 @@ const SuggestedProducts = ({ currentProduct }: { currentProduct: AppProduct }) =
         .slice(0, 3)
         .map(mapAppProductToAIProduct);
     };
-
 
     if (allProducts) {
       fetchSuggestions();

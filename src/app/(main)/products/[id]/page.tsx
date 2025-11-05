@@ -1,4 +1,3 @@
-
 'use client';
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -16,7 +15,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const firestore = useFirestore();
-  const productRef = useMemoFirebase(() => doc(firestore, "products", params.id), [firestore, params.id]);
+  const productRef = useMemoFirebase(() => {
+    if(!firestore) return null;
+    return doc(firestore, "products", params.id)
+  }, [firestore, params.id]);
   const { data: product, isLoading } = useDoc<Product>(productRef);
 
   if (isLoading) {
@@ -104,12 +106,3 @@ const ProductPageSkeleton = () => {
     </div>
   );
 };
-
-// This can be removed if not using Next.js file-based metadata
-// export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-//   // With Firestore, we would need to fetch this data on the server.
-//   // For now, this is client-rendered so metadata is harder.
-//   return {
-//     title: 'Product – MegaDealsStore',
-//   };
-// }

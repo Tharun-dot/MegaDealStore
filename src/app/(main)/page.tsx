@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/data';
+import { placeholderImages as PlaceHolderImages } from '@/lib/placeholder-images.json';
 import ProductListings from '@/components/products/ProductListings';
 import { ArrowRight, ShieldCheck, Truck, CreditCard, LifeBuoy } from 'lucide-react';
 import ParallaxWrapper from '@/components/shared/ParallaxWrapper';

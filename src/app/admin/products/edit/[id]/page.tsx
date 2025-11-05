@@ -15,7 +15,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function EditProductPage({ params }: { params: { id: string } }) {
   const firestore = useFirestore();
-  const productRef = useMemoFirebase(() => doc(firestore, "products", params.id), [firestore, params.id]);
+  const productRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, "products", params.id)
+  }, [firestore, params.id]);
+
   const { data: product, isLoading } = useDoc<Product>(productRef);
 
   if (isLoading) {

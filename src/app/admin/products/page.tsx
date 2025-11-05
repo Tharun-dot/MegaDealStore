@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button';
 import { Edit, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, doc, deleteDoc } from 'firebase/firestore';
+import { collection, doc } from 'firebase/firestore';
 import type { Product } from '@/app/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
@@ -30,11 +30,15 @@ export default function AdminProductsPage() {
   const firestore = useFirestore();
   const { toast } = useToast();
 
-  const productsRef = useMemoFirebase(() => collection(firestore, 'products'), [firestore]);
+  const productsRef = useMemoFirebase(() => {
+      if (!firestore) return null;
+      return collection(firestore, 'products')
+    }, [firestore]);
+
   const { data: products, isLoading } = useCollection<Product>(productsRef);
 
   const handleDelete = (productId: string, productName: string) => {
-    if (confirm(`Are you sure you want to delete "${productName}"?`)) {
+    if (confirm(`Are you sure you want to delete "${productName}"?`) && firestore) {
       const docRef = doc(firestore, 'products', productId);
       deleteDocumentNonBlocking(docRef);
       toast({

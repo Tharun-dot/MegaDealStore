@@ -23,8 +23,10 @@ function LogoutButton() {
     const router = useRouter();
 
     const handleLogout = async () => {
-        await auth.signOut();
-        router.push('/login');
+        if (auth) {
+            await auth.signOut();
+            router.push('/login');
+        }
     };
 
     return (
@@ -54,8 +56,8 @@ export default function AdminLayout({
     return (
       <div className="flex items-center justify-center min-h-screen">
           <div className="p-8 bg-card rounded-lg shadow-lg flex flex-col items-center gap-4">
-              <Skeleton className="h-8 w-48" />
-              <Skeleton className="h-6 w-32" />
+              <p className="text-lg font-semibold">Loading Admin Dashboard...</p>
+              <p className="text-sm text-muted-foreground">Please wait a moment.</p>
           </div>
       </div>
     );

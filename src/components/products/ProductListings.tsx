@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { priceFilters, sortOptions } from '@/lib/data';
 import type { Product } from '@/app/lib/types';
 import ProductCard from './ProductCard';
@@ -22,6 +22,7 @@ const ProductListings = () => {
   const firestore = useFirestore();
   
   const productsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
     let q: Query = collection(firestore, 'products');
 
     const selectedPriceRange = priceFilters.find(p => p.label === priceFilter);

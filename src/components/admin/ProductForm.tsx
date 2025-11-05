@@ -94,6 +94,10 @@ export default function ProductForm({ initialData, productId }: ProductFormProps
   });
 
   const onSubmit = (data: ProductFormValues) => {
+    if (!firestore) {
+        toast({ title: 'Error', description: 'Database not available.', variant: 'destructive' });
+        return;
+    }
     if (isEditing && productId) {
       const productRef = doc(firestore, 'products', productId);
       setDocumentNonBlocking(productRef, data, { merge: true });

@@ -62,6 +62,7 @@ export default function LoginPage() {
   });
 
   const onLoginSubmit = async (values: z.infer<typeof loginSchema>) => {
+    if (!auth) return;
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
@@ -79,6 +80,7 @@ export default function LoginPage() {
   };
   
   const onSignupSubmit = async (values: z.infer<typeof signupSchema>) => {
+    if (!auth) return;
     setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
