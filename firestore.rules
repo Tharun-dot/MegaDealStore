@@ -22,12 +22,13 @@ service cloud.firestore {
       allow create: if isSignedIn() && request.auth.uid == userId;
     }
 
-    // Admins collection can only be modified by other admins,
-    // but the first admin can be created by any authenticated user.
+    // Admins collection can only be read/written by other admins.
+    // However, any signed-in user can create the *very first* admin document.
     match /admins/{userId} {
       allow read: if isSignedIn() && isAdmin();
       allow write: if isSignedIn() && isAdmin();
-      // Allow the very first admin to be created.
+      // This rule allows the first admin to be created. 
+      // After the first document exists, this rule will no longer allow creation.
       allow create: if isSignedIn() && !exists(/databases/$(database)/documents/admins);
     }
   }
