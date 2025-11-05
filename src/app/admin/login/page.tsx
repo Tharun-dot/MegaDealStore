@@ -29,7 +29,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDocs, setDoc, collection } from 'firebase/firestore';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -85,17 +85,30 @@ export default function AdminLoginPage() {
     if (!auth || !firestore) return;
     setLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      const user = userCredential.user;
+      // Check if any admins exist
+      const adminSnapshot = await getDocs(collection(firestore, "admins"));
+      
+      if (adminSnapshot.empty) {
+        // This is the first admin, so create the user and add them to the admins collection
+        const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+        const user = userCredential.user;
 
-      // Add the new user to the 'admins' collection to grant admin role.
-      await setDoc(doc(firestore, "admins", user.uid), {
-        id: user.uid,
-        role: 'admin',
-      });
+        // Add the new user to the 'admins' collection to grant admin role.
+        await setDoc(doc(firestore, "admins", user.uid), {
+          id: user.uid,
+          role: 'admin',
+        });
+        toast({ title: 'Admin Account Created' });
+        router.push('/admin/products');
+      } else {
+         // Admins already exist, so don't allow public signup
+         toast({
+          title: 'Signup Not Allowed',
+          description: 'An admin account already exists. Please contact the administrator to be added.',
+          variant: 'destructive',
+        });
+      }
 
-      toast({ title: 'Admin Account Created' });
-      router.push('/admin/products');
     } catch (error: any) {
        toast({
         title: 'Signup Failed',
@@ -160,8 +173,8 @@ export default function AdminLoginPage() {
         <TabsContent value="signup">
              <Card>
             <CardHeader>
-                <CardTitle>Create Admin Account</CardTitle>
-                <CardDescription>Enter your details to create a new admin account.</CardDescription>
+                <CardTitle>Create First Admin</CardTitle>
+                <CardDescription>This form can only be used to create the very first admin account.</CardDescription>
             </CardHeader>
             <CardContent>
                 <Form {...signupForm}>

@@ -25,7 +25,7 @@ function LogoutButton() {
     const handleLogout = async () => {
         if (auth) {
             await auth.signOut();
-            router.push('/admin-login');
+            router.push('/admin/login');
         }
     };
 
@@ -48,7 +48,7 @@ export default function AdminLayout({
 
   useEffect(() => {
     if (!isUserLoading && !user) {
-      router.push('/admin-login');
+      router.push('/admin/login');
     }
   }, [user, isUserLoading, router]);
 
