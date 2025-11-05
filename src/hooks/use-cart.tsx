@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import type { CartItem, Product } from '@/app/lib/types';
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -19,26 +19,35 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { toast } = useToast();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    try {
-      const items = localStorage.getItem('cartItems');
-      if (items) {
-        setCartItems(JSON.parse(items));
-      }
-    } catch (error) {
-      console.error("Failed to parse cart items from localStorage", error);
-      setCartItems([]);
-    }
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
-    try {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    } catch (error) {
-       console.error("Failed to save cart items to localStorage", error);
+    if (isClient) {
+      try {
+        const items = localStorage.getItem('cartItems');
+        if (items) {
+          setCartItems(JSON.parse(items));
+        }
+      } catch (error) {
+        console.error("Failed to parse cart items from localStorage", error);
+        setCartItems([]);
+      }
     }
-  }, [cartItems]);
+  }, [isClient]);
+
+  useEffect(() => {
+    if (isClient) {
+      try {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      } catch (error) {
+         console.error("Failed to save cart items to localStorage", error);
+      }
+    }
+  }, [cartItems, isClient]);
 
   const addToCart = (product: Product) => {
     setCartItems(prevItems => {

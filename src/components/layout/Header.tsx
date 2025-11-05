@@ -7,15 +7,13 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetFooter,
-  SheetClose,
+  SheetTrigger,
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { useCart } from '@/hooks/use-cart';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
 import {
   Popover,
   PopoverContent,
@@ -27,28 +25,29 @@ import { useRouter } from 'next/navigation';
 const navLinks = ["Home", "About Us", "Gift Registry", "Blog", "Contact Us"];
 
 const CartSheet = () => {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal, itemCount } = useCart();
+  const { itemCount } = useCart();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <Sheet>
-      <Popover>
-        <PopoverTrigger asChild>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingCart className="h-6 w-6" />
-              {itemCount > 0 && (
-                <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
-                  {itemCount}
-                </span>
-              )}
-              <span className="sr-only">Open cart</span>
-            </Button>
-          </SheetTrigger>
-        </PopoverTrigger>
-        <PopoverContent className="w-80 mr-4">
-          <CartContent />
-        </PopoverContent>
-      </Popover>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" className="relative">
+          <ShoppingCart className="h-6 w-6" />
+          {isClient && itemCount > 0 && (
+            <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+              {itemCount}
+            </span>
+          )}
+          <span className="sr-only">Open cart</span>
+        </Button>
+      </SheetTrigger>
+      <SheetContent>
+        <CartContent />
+      </SheetContent>
     </Sheet>
   );
 };
@@ -56,9 +55,26 @@ const CartSheet = () => {
 const CartContent = () => {
   const { cartItems, removeFromCart, updateQuantity, cartTotal, itemCount } = useCart();
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleCheckout = () => {
+    const sheetClose = document.querySelector('[data-radix-dialog-close]');
+    if (sheetClose instanceof HTMLElement) {
+      sheetClose.click();
+    }
+    const popoverClose = document.querySelector('[data-radix-popover-close]');
+     if (popoverClose instanceof HTMLElement) {
+      popoverClose.click();
+    }
     router.push('/checkout');
+  }
+
+  if (!isClient) {
+    return null;
   }
 
   return (
@@ -69,7 +85,7 @@ const CartContent = () => {
       <Separator className="my-4" />
       {cartItems.length > 0 ? (
         <div className="flex flex-col h-full">
-          <div className="flex-1 overflow-y-auto pr-4">
+          <div className="flex-1 overflow-y-auto pr-4 -mr-4">
             {cartItems.map(item => (
               <div key={item.product.id} className="flex items-start gap-4 mb-4">
                 <Image
@@ -95,7 +111,7 @@ const CartContent = () => {
               </div>
             ))}
           </div>
-          <SheetFooter className="mt-auto pt-4 border-t">
+          <div className="mt-auto pt-4 border-t">
             <div className="w-full">
               <div className="flex justify-between font-bold text-lg mb-4">
                 <span>Subtotal</span>
@@ -103,7 +119,7 @@ const CartContent = () => {
               </div>
               <Button className="w-full bg-primary hover:bg-primary/90" onClick={handleCheckout}>Checkout</Button>
             </div>
-          </SheetFooter>
+          </div>
         </div>
       ) : (
         <p className="text-center text-muted-foreground py-8">Your cart is empty.</p>
@@ -176,12 +192,18 @@ export const Header = () => {
 
 const CartPopover = () => {
   const { itemCount } = useCart();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
      <Popover>
         <PopoverTrigger asChild>
           <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="h-6 w-6" />
-              {itemCount > 0 && (
+              {isClient && itemCount > 0 && (
                 <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
                   {itemCount}
                 </span>
