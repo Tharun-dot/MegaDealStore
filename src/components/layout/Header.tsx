@@ -1,13 +1,12 @@
 "use client";
 import Link from 'next/link';
-import { Leaf, Menu, ShoppingCart, X } from 'lucide-react';
+import { Gamepad2, Menu, ShoppingCart, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
   SheetFooter,
   SheetClose,
 } from '@/components/ui/sheet';
@@ -144,8 +143,8 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           {isMobile && <MobileNav />}
           <Link href="/" className="flex items-center gap-2 font-bold text-lg font-headline">
-            <Leaf className="h-6 w-6 text-primary" />
-            <span>YourDropshipStore</span>
+            <Gamepad2 className="h-6 w-6 text-primary" />
+            <span>Game On</span>
           </Link>
         </div>
         

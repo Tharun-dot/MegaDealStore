@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 
   return {
-    title: `${product.title} – YourDropshipStore`,
+    title: `${product.title} – Game On`,
     description: product.description,
     openGraph: {
       title: product.title,
@@ -53,12 +53,12 @@ export default function ProductPage({ params }: ProductPageProps) {
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
           <div className="fade-in-up">
-            <div className="aspect-square relative rounded-lg overflow-hidden shadow-lg">
+            <div className="aspect-square relative rounded-lg overflow-hidden shadow-lg bg-card">
               <Image
                 src={product.image.imageUrl}
                 alt={product.title}
                 fill
-                className="object-cover"
+                className="object-contain p-4"
                 data-ai-hint={product.image.imageHint}
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
@@ -93,7 +93,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               </div>
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-primary" />
-                <span>30-day return policy</span>
+                <span>2-year manufacturer warranty</span>
               </div>
             </div>
           </div>

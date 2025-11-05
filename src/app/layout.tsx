@@ -7,9 +7,9 @@ import { Toaster } from '@/components/ui/toaster';
 import { CartProvider } from '@/hooks/use-cart';
 
 export const metadata: Metadata = {
-  title: 'YourDropshipStore - Beautiful Plants, Delivered.',
-  description: 'Browse our collection of beautiful plants and accessories. Free shipping on all orders. Great prices.',
-  metadataBase: new URL('https://yourdropshipstore.com'),
+  title: 'Game On - Top Tier Gaming Gear',
+  description: 'Shop the latest in gaming peripherals and accessories. Free shipping on all orders. Competitive prices.',
+  metadataBase: new URL('https://gameon.com'),
 };
 
 export default function RootLayout({
@@ -18,11 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className={cn('font-body antialiased', 'min-h-screen bg-background font-sans')}>
         <CartProvider>

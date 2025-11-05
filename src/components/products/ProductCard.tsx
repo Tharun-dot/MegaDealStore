@@ -19,15 +19,15 @@ const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) => {
 
   if (viewMode === 'list') {
     return (
-      <Card className="w-full overflow-hidden transition-shadow duration-300 hover:shadow-lg">
+      <Card className="w-full overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-card border-border">
         <div className="flex flex-col md:flex-row">
-          <Link href={`/products/${product.id}`} className="block md:w-1/3 relative">
+          <Link href={`/products/${product.id}`} className="block md:w-1/3 relative bg-card">
             <Image
               src={product.image.imageUrl}
               alt={product.title}
               width={300}
               height={300}
-              className="object-cover w-full h-full"
+              className="object-contain w-full h-full p-4"
               data-ai-hint={product.image.imageHint}
             />
           </Link>
@@ -61,15 +61,15 @@ const ProductCard = ({ product, viewMode = 'grid' }: ProductCardProps) => {
   }
 
   return (
-    <Card className="group w-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+    <Card className="group w-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-border">
       <Link href={`/products/${product.id}`} className="block">
-        <div className="overflow-hidden relative">
+        <div className="overflow-hidden relative bg-card aspect-square">
           <Image
             src={product.image.imageUrl}
             alt={product.title}
             width={400}
             height={400}
-            className="object-cover w-full aspect-square group-hover:scale-105 transition-transform duration-300"
+            className="object-contain w-full h-full p-4 group-hover:scale-105 transition-transform duration-300"
             data-ai-hint={product.image.imageHint}
           />
           {product.labels.length > 0 && (
