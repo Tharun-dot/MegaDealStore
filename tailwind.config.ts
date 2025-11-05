@@ -17,7 +17,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['"Roboto"', 'sans-serif'],
+        body: ['"Exo 2"', 'sans-serif'],
         headline: ['"Orbitron"', 'sans-serif'],
         code: ['monospace'],
       },

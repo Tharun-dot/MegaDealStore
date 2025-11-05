@@ -29,6 +29,24 @@
       "description": "A stylish and modern gaming setup with a large monitor, RGB keyboard, and mouse, in a dark room.",
       "imageUrl": "https://images.unsplash.com/photo-1603481588273-2f908a9a7a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnYW1pbmclMjBzZXR1cHxlbnwwfHx8fDE3NjIzNDY2NDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "gaming setup"
+    },
+    {
+      "id": "product-5",
+      "description": "The white PlayStation 5 console standing vertically with its controller.",
+      "imageUrl": "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwbGF5c3RhdGlvbiUyMDV8ZW58MHx8fHwxNzYyODg0NjIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "playstation console"
+    },
+    {
+      "id": "product-6",
+      "description": "The black Xbox Series X console standing vertically.",
+      "imageUrl": "https://images.unsplash.com/photo-1621259182962-672535492167?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx4Ym94JTIwc2VyaWVzJTIweHxlbnwwfHx8fDE3NjI4ODQ2ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "xbox console"
+    },
+    {
+      "id": "product-7",
+      "description": "The Nintendo Switch OLED model with white joy-cons attached.",
+      "imageUrl": "https://images.unsplash.com/photo-1654922345229-39f8a4e3933c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxuaW50ZW5kbyUyMHN3aXRjaCUyMG9sZWR8ZW58MHx8fHwxNzYyODg0NzE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "nintendo switch"
     }
   ]
 }

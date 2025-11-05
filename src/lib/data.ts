@@ -59,6 +59,42 @@ export const products: Product[] = [
     rating: 4.9,
     description: "Unleash a new level of immersion with the 1000R curved screen. 240Hz refresh rate, 1ms response time, and QLED technology for stunning visuals."
   },
+  {
+    id: 'product-5',
+    category: 'consoles',
+    title: 'PlayStation 5 Console',
+    image: PlaceHolderImages.find((p) => p.id === 'product-5')!,
+    originalPrice: null,
+    price: 499.99,
+    labels: ["Best Seller"],
+    reviewsCount: 1204,
+    rating: 4.9,
+    description: "Experience next-gen gaming with the PlayStation 5. Ultra-high-speed SSD, deeper immersion with support for haptic feedback, adaptive triggers and 3D Audio."
+  },
+  {
+    id: 'product-6',
+    category: 'consoles',
+    title: 'Xbox Series X',
+    image: PlaceHolderImages.find((p) => p.id === 'product-6')!,
+    originalPrice: null,
+    price: 499.99,
+    labels: [],
+    reviewsCount: 987,
+    rating: 4.8,
+    description: "The fastest, most powerful Xbox ever. Explore rich new worlds with 12 teraflops of raw graphic processing power, DirectX ray tracing, a custom SSD, and 4K gaming."
+  },
+  {
+    id: 'product-7',
+    category: 'consoles',
+    title: 'Nintendo Switch - OLED Model',
+    image: PlaceHolderImages.find((p) => p.id === 'product-7')!,
+    originalPrice: 349.99,
+    price: 329.99,
+    labels: ["On Sale"],
+    reviewsCount: 1543,
+    rating: 4.8,
+    description: "Play at home on the TV or on-the-go with a vibrant 7-inch OLED screen. Features a wide adjustable stand, a dock with a wired LAN port, 64 GB of internal storage, and enhanced audio."
+  },
 ];
 
 export const categories = [
@@ -81,6 +117,11 @@ export const categories = [
     id: 'monitors',
     title: 'Monitors',
     breadcrumb: ['Home', 'Monitors'],
+  },
+  {
+    id: 'consoles',
+    title: 'Consoles',
+    breadcrumb: ['Home', 'Consoles'],
   },
 ];
 
